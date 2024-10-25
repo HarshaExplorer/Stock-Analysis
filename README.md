@@ -1,1 +1,1 @@
-# Stock-Trend-Analyzer
+# Stock Trend Analyzer
