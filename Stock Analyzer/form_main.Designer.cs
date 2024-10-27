@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox_actionPanel = new System.Windows.Forms.GroupBox();
             this.dateTimePicker_endDate = new System.Windows.Forms.DateTimePicker();
             this.label_endDate = new System.Windows.Forms.Label();
@@ -39,12 +39,6 @@
             this.button_update = new System.Windows.Forms.Button();
             this.button_loadStocks = new System.Windows.Forms.Button();
             this.dataGridView_stockview = new System.Windows.Forms.DataGridView();
-            this.DataGridViewTextBoxColumn_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DataGridViewTextBoxColumn_open = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DataGridViewTextBoxColumn_high = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DataGridViewTextBoxColumn_low = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DataGridViewTextBoxColumn_close = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DataGridViewTextBoxColumn_volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.chart_OHLC = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.openFileDialog_stockFilePick = new System.Windows.Forms.OpenFileDialog();
             this.groupBox_actionPanel.SuspendLayout();
@@ -140,13 +134,6 @@
             this.dataGridView_stockview.AllowUserToDeleteRows = false;
             this.dataGridView_stockview.AllowUserToOrderColumns = true;
             this.dataGridView_stockview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_stockview.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.DataGridViewTextBoxColumn_date,
-            this.DataGridViewTextBoxColumn_open,
-            this.DataGridViewTextBoxColumn_high,
-            this.DataGridViewTextBoxColumn_low,
-            this.DataGridViewTextBoxColumn_close,
-            this.DataGridViewTextBoxColumn_volume});
             this.dataGridView_stockview.Location = new System.Drawing.Point(974, 47);
             this.dataGridView_stockview.MinimumSize = new System.Drawing.Size(2000, 447);
             this.dataGridView_stockview.Name = "dataGridView_stockview";
@@ -155,66 +142,18 @@
             this.dataGridView_stockview.Size = new System.Drawing.Size(2000, 447);
             this.dataGridView_stockview.TabIndex = 1;
             // 
-            // DataGridViewTextBoxColumn_date
-            // 
-            this.DataGridViewTextBoxColumn_date.HeaderText = "Date";
-            this.DataGridViewTextBoxColumn_date.MinimumWidth = 12;
-            this.DataGridViewTextBoxColumn_date.Name = "DataGridViewTextBoxColumn_date";
-            this.DataGridViewTextBoxColumn_date.ReadOnly = true;
-            this.DataGridViewTextBoxColumn_date.Width = 150;
-            // 
-            // DataGridViewTextBoxColumn_open
-            // 
-            this.DataGridViewTextBoxColumn_open.HeaderText = "Open";
-            this.DataGridViewTextBoxColumn_open.MinimumWidth = 12;
-            this.DataGridViewTextBoxColumn_open.Name = "DataGridViewTextBoxColumn_open";
-            this.DataGridViewTextBoxColumn_open.ReadOnly = true;
-            this.DataGridViewTextBoxColumn_open.Width = 150;
-            // 
-            // DataGridViewTextBoxColumn_high
-            // 
-            this.DataGridViewTextBoxColumn_high.HeaderText = "High";
-            this.DataGridViewTextBoxColumn_high.MinimumWidth = 12;
-            this.DataGridViewTextBoxColumn_high.Name = "DataGridViewTextBoxColumn_high";
-            this.DataGridViewTextBoxColumn_high.ReadOnly = true;
-            this.DataGridViewTextBoxColumn_high.Width = 150;
-            // 
-            // DataGridViewTextBoxColumn_low
-            // 
-            this.DataGridViewTextBoxColumn_low.HeaderText = "Low";
-            this.DataGridViewTextBoxColumn_low.MinimumWidth = 12;
-            this.DataGridViewTextBoxColumn_low.Name = "DataGridViewTextBoxColumn_low";
-            this.DataGridViewTextBoxColumn_low.ReadOnly = true;
-            this.DataGridViewTextBoxColumn_low.Width = 150;
-            // 
-            // DataGridViewTextBoxColumn_close
-            // 
-            this.DataGridViewTextBoxColumn_close.HeaderText = "Close";
-            this.DataGridViewTextBoxColumn_close.MinimumWidth = 12;
-            this.DataGridViewTextBoxColumn_close.Name = "DataGridViewTextBoxColumn_close";
-            this.DataGridViewTextBoxColumn_close.ReadOnly = true;
-            this.DataGridViewTextBoxColumn_close.Width = 150;
-            // 
-            // DataGridViewTextBoxColumn_volume
-            // 
-            this.DataGridViewTextBoxColumn_volume.HeaderText = "Volume";
-            this.DataGridViewTextBoxColumn_volume.MinimumWidth = 12;
-            this.DataGridViewTextBoxColumn_volume.Name = "DataGridViewTextBoxColumn_volume";
-            this.DataGridViewTextBoxColumn_volume.ReadOnly = true;
-            this.DataGridViewTextBoxColumn_volume.Width = 150;
-            // 
             // chart_OHLC
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chart_OHLC.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chart_OHLC.Legends.Add(legend2);
+            chartArea3.Name = "ChartArea1";
+            this.chart_OHLC.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chart_OHLC.Legends.Add(legend3);
             this.chart_OHLC.Location = new System.Drawing.Point(32, 549);
             this.chart_OHLC.Name = "chart_OHLC";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart_OHLC.Series.Add(series2);
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chart_OHLC.Series.Add(series3);
             this.chart_OHLC.Size = new System.Drawing.Size(2942, 729);
             this.chart_OHLC.TabIndex = 2;
             this.chart_OHLC.Text = "chart1";
@@ -258,12 +197,6 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker_endDate;
         private System.Windows.Forms.DataGridView dataGridView_stockview;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart_OHLC;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn_date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn_open;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn_high;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn_low;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn_close;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn_volume;
         private System.Windows.Forms.OpenFileDialog openFileDialog_stockFilePick;
     }
 }
