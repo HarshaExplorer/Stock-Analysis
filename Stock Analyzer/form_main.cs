@@ -43,13 +43,16 @@ namespace Stock_Analyzer
         {
             //On button click change text of window form
             Text = "Stock Viewer - Loading Stock File...";
-            candlesticks = stockLoader.LoadStockData(openFileDialog_stockFilePick.FileName);
+            processData(openFileDialog_stockFilePick.FileName);
+        }
+
+        private void processData(string inputFile)
+        {
+            candlesticks = stockLoader.LoadStockData(inputFile);
             candlesticks = candlesticks.OrderBy(c => c.Date).ToList();
             bindCandlesticks = new BindingList<CandleStick>(candlesticks);
             dataGridView_stockview.DataSource = bindCandlesticks;
             Text = "Stock Viewer";
-
-
         }
     }
 }

@@ -21,6 +21,7 @@ namespace Stock_Analyzer
                     // Read the header line to get column names
                     var headerLine = reader.ReadLine().Replace("\"", string.Empty); ;
                     var headers = headerLine.Split(',');
+                    var headerKeys = new List<string> { "date", "open", "high", "low", "close", "volume" };
 
                     // Create a dictionary to map header names to their indices
                     var columnIndexMap = new Dictionary<string, int>();
@@ -29,6 +30,11 @@ namespace Stock_Analyzer
                         headers[i] = headers[i].ToLower().Trim();
                         columnIndexMap[headers[i]] = i;
                     }
+
+                    foreach(var key in headerKeys) 
+                        if (!columnIndexMap.ContainsKey(key))
+                            throw new InvalidDataException("CSV headers are not as expected. Headers must contain (in any order): " + String.Join(",",headerKeys));
+                    
 
                     // Read each line of the CSV
                     while (!reader.EndOfStream)
@@ -57,6 +63,11 @@ namespace Stock_Analyzer
                         }
                     }
                 }
+            }
+            catch(InvalidDataException ex)
+            {
+                MessageBox.Show(ex.Message);
+                Console.WriteLine($"An error occurred while loading stock data: {ex.Message}.");
             }
             catch (Exception ex)
             {
