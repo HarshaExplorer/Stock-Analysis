@@ -46,6 +46,7 @@
             this.DataGridViewTextBoxColumn_close = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DataGridViewTextBoxColumn_volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.chart_OHLC = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.openFileDialog_stockFilePick = new System.Windows.Forms.OpenFileDialog();
             this.groupBox_actionPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_stockview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart_OHLC)).BeginInit();
@@ -131,6 +132,7 @@
             this.button_loadStocks.TabIndex = 0;
             this.button_loadStocks.Text = "Load Stocks";
             this.button_loadStocks.UseVisualStyleBackColor = true;
+            this.button_loadStocks.Click += new System.EventHandler(this.button_loadStocks_Click);
             // 
             // dataGridView_stockview
             // 
@@ -217,6 +219,10 @@
             this.chart_OHLC.TabIndex = 2;
             this.chart_OHLC.Text = "chart1";
             // 
+            // openFileDialog_stockFilePick
+            // 
+            this.openFileDialog_stockFilePick.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+            // 
             // form_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
@@ -258,6 +264,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn_low;
         private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn_close;
         private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn_volume;
+        private System.Windows.Forms.OpenFileDialog openFileDialog_stockFilePick;
     }
 }
 

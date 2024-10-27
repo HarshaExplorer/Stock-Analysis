@@ -23,10 +23,12 @@ namespace Stock_Analyzer
                     var headers = headerLine.Split(',');
 
                     // Create a dictionary to map header names to their indices
-                    var columnIndexMap = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+                    var columnIndexMap = new Dictionary<string, int>();
                     for (int i = 0; i < headers.Length; i++)
                     {
-                        columnIndexMap[headers[i].Trim()] = i;
+                        headers[i] = headers[i].ToLower().Trim();
+                        columnIndexMap[headers[i]] = i;
+                        MessageBox.Show(headers[i]);
                     }
 
                     // Read each line of the CSV
@@ -38,12 +40,12 @@ namespace Stock_Analyzer
                         try
                         {
                             // Get the string values using the mapped indices
-                            string dateStr = values[columnIndexMap["Date"]];
-                            string openStr = values[columnIndexMap["Open"]];
-                            string highStr = values[columnIndexMap["High"]];
-                            string lowStr = values[columnIndexMap["Low"]];
-                            string closeStr = values[columnIndexMap["Close"]];
-                            string volumeStr = values[columnIndexMap["Volume"]];
+                            string dateStr = values[columnIndexMap["date"]];
+                            string openStr = values[columnIndexMap["open"]];
+                            string highStr = values[columnIndexMap["high"]];
+                            string lowStr = values[columnIndexMap["low"]];
+                            string closeStr = values[columnIndexMap["close"]];
+                            string volumeStr = values[columnIndexMap["volume"]];
 
                             // Create a new CandleStick and add it to the list
                             var candlestick = new CandleStick(dateStr, openStr, highStr, lowStr, closeStr, volumeStr);
