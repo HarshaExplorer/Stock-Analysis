@@ -16,6 +16,8 @@ namespace Stock_Analyzer
         //List of all candlesticks read from file
         private List<CandleStick> candlesticks = null;
         private StockLoader stockLoader = null;
+        //Binding list of candlesticks bound to DataGridView 
+        private BindingList<CandleStick> bindCandlesticks = null;
         public form_main()
         {
             InitializeComponent();
@@ -42,6 +44,8 @@ namespace Stock_Analyzer
             //On button click change text of window form
             Text = "Stock Viewer - Loading Stock File...";
             candlesticks = stockLoader.LoadStockData(openFileDialog_stockFilePick.FileName);
+            bindCandlesticks = new BindingList<CandleStick>(candlesticks);
+            dataGridView_stockview.DataSource = bindCandlesticks;
             
         }
     }
