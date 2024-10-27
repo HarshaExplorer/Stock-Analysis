@@ -19,7 +19,7 @@ namespace Stock_Analyzer
                 using (var reader = new StreamReader(filePath))
                 {
                     // Read the header line to get column names
-                    var headerLine = reader.ReadLine();
+                    var headerLine = reader.ReadLine().Replace("\"", string.Empty); ;
                     var headers = headerLine.Split(',');
 
                     // Create a dictionary to map header names to their indices
@@ -28,13 +28,12 @@ namespace Stock_Analyzer
                     {
                         headers[i] = headers[i].ToLower().Trim();
                         columnIndexMap[headers[i]] = i;
-                        MessageBox.Show(headers[i]);
                     }
 
                     // Read each line of the CSV
                     while (!reader.EndOfStream)
                     {
-                        var line = reader.ReadLine();
+                        var line = reader.ReadLine().Replace("\"", string.Empty); ;
                         var values = line.Split(',');
 
                         try
