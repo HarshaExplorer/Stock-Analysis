@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox_actionPanel = new System.Windows.Forms.GroupBox();
             this.dateTimePicker_endDate = new System.Windows.Forms.DateTimePicker();
             this.label_endDate = new System.Windows.Forms.Label();
@@ -38,17 +38,17 @@
             this.label_startDate = new System.Windows.Forms.Label();
             this.button_update = new System.Windows.Forms.Button();
             this.button_loadStocks = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.dataGridView_stockview = new System.Windows.Forms.DataGridView();
             this.DataGridViewTextBoxColumn_date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DataGridViewTextBoxColumn_open = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DataGridViewTextBoxColumn_high = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DataGridViewTextBoxColumn_low = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DataGridViewTextBoxColumn_close = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DataGridViewTextBoxColumn_volume = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.chart_OHLC = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox_actionPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_stockview)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_OHLC)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox_actionPanel
@@ -132,42 +132,26 @@
             this.button_loadStocks.Text = "Load Stocks";
             this.button_loadStocks.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dataGridView_stockview
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToOrderColumns = true;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridView_stockview.AllowUserToAddRows = false;
+            this.dataGridView_stockview.AllowUserToDeleteRows = false;
+            this.dataGridView_stockview.AllowUserToOrderColumns = true;
+            this.dataGridView_stockview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_stockview.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.DataGridViewTextBoxColumn_date,
             this.DataGridViewTextBoxColumn_open,
             this.DataGridViewTextBoxColumn_high,
             this.DataGridViewTextBoxColumn_low,
             this.DataGridViewTextBoxColumn_close,
             this.DataGridViewTextBoxColumn_volume});
-            this.dataGridView1.Location = new System.Drawing.Point(974, 47);
-            this.dataGridView1.MinimumSize = new System.Drawing.Size(2000, 447);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 102;
-            this.dataGridView1.RowTemplate.Height = 40;
-            this.dataGridView1.Size = new System.Drawing.Size(2000, 447);
-            this.dataGridView1.TabIndex = 1;
-            // 
-            // chart1
-            // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(32, 549);
-            this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(2942, 729);
-            this.chart1.TabIndex = 2;
-            this.chart1.Text = "chart1";
+            this.dataGridView_stockview.Location = new System.Drawing.Point(974, 47);
+            this.dataGridView_stockview.MinimumSize = new System.Drawing.Size(2000, 447);
+            this.dataGridView_stockview.Name = "dataGridView_stockview";
+            this.dataGridView_stockview.RowHeadersWidth = 102;
+            this.dataGridView_stockview.RowTemplate.Height = 40;
+            this.dataGridView_stockview.Size = new System.Drawing.Size(2000, 447);
+            this.dataGridView_stockview.TabIndex = 1;
             // 
             // DataGridViewTextBoxColumn_date
             // 
@@ -217,6 +201,22 @@
             this.DataGridViewTextBoxColumn_volume.ReadOnly = true;
             this.DataGridViewTextBoxColumn_volume.Width = 150;
             // 
+            // chart_OHLC
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.chart_OHLC.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chart_OHLC.Legends.Add(legend2);
+            this.chart_OHLC.Location = new System.Drawing.Point(32, 549);
+            this.chart_OHLC.Name = "chart_OHLC";
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chart_OHLC.Series.Add(series2);
+            this.chart_OHLC.Size = new System.Drawing.Size(2942, 729);
+            this.chart_OHLC.TabIndex = 2;
+            this.chart_OHLC.Text = "chart1";
+            // 
             // form_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
@@ -225,18 +225,18 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(3025, 1343);
-            this.Controls.Add(this.chart1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.chart_OHLC);
+            this.Controls.Add(this.dataGridView_stockview);
             this.Controls.Add(this.groupBox_actionPanel);
             this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Name = "form_main";
             this.Padding = new System.Windows.Forms.Padding(30);
-            this.Text = "Stock Trend Analyzer";
+            this.Text = "Stock Viewer";
             this.Load += new System.EventHandler(this.form_main_Load);
             this.groupBox_actionPanel.ResumeLayout(false);
             this.groupBox_actionPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_stockview)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_OHLC)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -250,8 +250,8 @@
         private System.Windows.Forms.Label label_endDate;
         private System.Windows.Forms.DateTimePicker dateTimePicker_startDate;
         private System.Windows.Forms.DateTimePicker dateTimePicker_endDate;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataGridView dataGridView_stockview;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart_OHLC;
         private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn_date;
         private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn_open;
         private System.Windows.Forms.DataGridViewTextBoxColumn DataGridViewTextBoxColumn_high;
