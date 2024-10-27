@@ -18,7 +18,24 @@ namespace Stock_Analyzer
 
         public CandleStick(string dateStr, string openStr, string highStr, string lowStr, string closeStr, string volumeStr)
         {
-
+            if (DateTime.TryParse(dateStr, out DateTime date) &&
+                decimal.TryParse(openStr, out decimal open) &&
+                decimal.TryParse(highStr, out decimal high) &&
+                decimal.TryParse(lowStr, out decimal low) &&
+                decimal.TryParse(closeStr, out decimal close) &&
+                ulong.TryParse(volumeStr, out ulong volume))
+            {
+                Date = date;
+                Open = open;
+                High = high;
+                Low = low;
+                Close = close;
+                Volume = volume;
+            }
+            else
+            {
+                throw new ArgumentException("One or more values could not be parsed for CandleStick.");
+            }
         }
         public override string ToString()
         {
