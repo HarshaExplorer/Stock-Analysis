@@ -63,7 +63,7 @@ namespace Stock_Analyzer
                 MessageBox.Show("An error occurred while loading stock data!");
                 Console.WriteLine($"An error occurred while loading stock data: {ex.Message}.");
             }
-
+            
             return candlesticks;
         }
     }
