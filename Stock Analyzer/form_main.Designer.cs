@@ -40,19 +40,19 @@
             this.button_update = new System.Windows.Forms.Button();
             this.button_loadStocks = new System.Windows.Forms.Button();
             this.dataGridView_stockview = new System.Windows.Forms.DataGridView();
-            this.chart_OHLC = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chart_OHLCV = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.openFileDialog_stockFilePick = new System.Windows.Forms.OpenFileDialog();
-            this.candleStickBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.formmainBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.openDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.highDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lowDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.closeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.volumeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.candleStickBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.formmainBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox_actionPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_stockview)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart_OHLC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_OHLCV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.candleStickBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.formmainBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -162,33 +162,25 @@
             this.dataGridView_stockview.Size = new System.Drawing.Size(2000, 447);
             this.dataGridView_stockview.TabIndex = 1;
             // 
-            // chart_OHLC
+            // chart_OHLCV
             // 
             chartArea1.Name = "ChartArea1";
-            this.chart_OHLC.ChartAreas.Add(chartArea1);
+            this.chart_OHLCV.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
-            this.chart_OHLC.Legends.Add(legend1);
-            this.chart_OHLC.Location = new System.Drawing.Point(32, 549);
-            this.chart_OHLC.Name = "chart_OHLC";
+            this.chart_OHLCV.Legends.Add(legend1);
+            this.chart_OHLCV.Location = new System.Drawing.Point(32, 549);
+            this.chart_OHLCV.Name = "chart_OHLCV";
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
             series1.Name = "Series1";
-            this.chart_OHLC.Series.Add(series1);
-            this.chart_OHLC.Size = new System.Drawing.Size(2942, 729);
-            this.chart_OHLC.TabIndex = 2;
-            this.chart_OHLC.Text = "chart1";
+            this.chart_OHLCV.Series.Add(series1);
+            this.chart_OHLCV.Size = new System.Drawing.Size(2942, 729);
+            this.chart_OHLCV.TabIndex = 2;
+            this.chart_OHLCV.Text = "chart1";
             // 
             // openFileDialog_stockFilePick
             // 
             this.openFileDialog_stockFilePick.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
-            // 
-            // candleStickBindingSource
-            // 
-            this.candleStickBindingSource.DataSource = typeof(Stock_Analyzer.CandleStick);
-            // 
-            // formmainBindingSource
-            // 
-            this.formmainBindingSource.DataSource = typeof(Stock_Analyzer.form_main);
             // 
             // dateDataGridViewTextBoxColumn
             // 
@@ -238,6 +230,14 @@
             this.volumeDataGridViewTextBoxColumn.Name = "volumeDataGridViewTextBoxColumn";
             this.volumeDataGridViewTextBoxColumn.Width = 180;
             // 
+            // candleStickBindingSource
+            // 
+            this.candleStickBindingSource.DataSource = typeof(Stock_Analyzer.CandleStick);
+            // 
+            // formmainBindingSource
+            // 
+            this.formmainBindingSource.DataSource = typeof(Stock_Analyzer.form_main);
+            // 
             // form_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
@@ -246,7 +246,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(3025, 1343);
-            this.Controls.Add(this.chart_OHLC);
+            this.Controls.Add(this.chart_OHLCV);
             this.Controls.Add(this.dataGridView_stockview);
             this.Controls.Add(this.groupBox_actionPanel);
             this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
@@ -257,7 +257,7 @@
             this.groupBox_actionPanel.ResumeLayout(false);
             this.groupBox_actionPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_stockview)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart_OHLC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_OHLCV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.candleStickBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.formmainBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -274,7 +274,7 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker_startDate;
         private System.Windows.Forms.DateTimePicker dateTimePicker_endDate;
         private System.Windows.Forms.DataGridView dataGridView_stockview;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart_OHLC;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart_OHLCV;
         private System.Windows.Forms.OpenFileDialog openFileDialog_stockFilePick;
         private System.Windows.Forms.BindingSource candleStickBindingSource;
         private System.Windows.Forms.BindingSource formmainBindingSource;

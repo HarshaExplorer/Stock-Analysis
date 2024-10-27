@@ -58,7 +58,7 @@ namespace Stock_Analyzer
                         }
                         catch (ArgumentException ex)
                         {
-                            MessageBox.Show("Error parsing the stock data!");
+                            MessageBox.Show("Error parsing the stock data!  Make sure your input file is properly formatted and has no blank values.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             Console.WriteLine($"Error creating CandleStick: {ex.Message}. Line: {line}");
                         }
                     }
@@ -66,12 +66,12 @@ namespace Stock_Analyzer
             }
             catch(InvalidDataException ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Console.WriteLine($"An error occurred while loading stock data: {ex.Message}.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error occurred while loading stock data!");
+                MessageBox.Show("An error occurred while loading stock data! Make sure your input file is properly formatted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Console.WriteLine($"An error occurred while loading stock data: {ex.Message}.");
             }
             
