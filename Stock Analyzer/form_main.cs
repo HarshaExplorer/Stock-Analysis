@@ -50,12 +50,31 @@ namespace Stock_Analyzer
         {
             candlesticks = stockLoader.LoadStockData(inputFile);
             candlesticks = candlesticks.OrderBy(c => c.Date).ToList();
+
             bindCandlesticks = new BindingList<CandleStick>(candlesticks);
             dataGridView_stockview.DataSource = bindCandlesticks;
 
+            AdjustChart();
             chart_OHLCV.DataSource = bindCandlesticks;
             chart_OHLCV.DataBind();
             Text = "Stock Viewer";
+        }
+
+        private void AdjustChart()
+        {
+      
+            decimal min = bindCandlesticks.First().Low, max = 0;
+
+            foreach (CandleStick c in bindCandlesticks)
+            { 
+                if (c.Low < min) 
+                    min = c.Low;
+                if (c.High > max) 
+                    max = c.High;
+            }
+            //Set the Y axis of the chart area to (+-)2% of the ranges rounded to 2 decimal places
+            chart_OHLCV.ChartAreas["ChartArea_OHLC"].AxisY.Minimum = Math.Floor(Decimal.ToDouble(min) * 0.98);
+            chart_OHLCV.ChartAreas["ChartArea_OHLC"].AxisY.Maximum = Math.Ceiling(Decimal.ToDouble(max) * 1.02);
         }
     }
 }
