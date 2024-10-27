@@ -30,8 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox_actionPanel = new System.Windows.Forms.GroupBox();
             this.dateTimePicker_endDate = new System.Windows.Forms.DateTimePicker();
             this.label_endDate = new System.Windows.Forms.Label();
@@ -164,19 +166,36 @@
             // 
             // chart_OHLCV
             // 
-            chartArea1.Name = "ChartArea1";
+            chartArea1.Name = "ChartArea_OHLC";
+            chartArea2.Name = "ChartArea_Volume";
             this.chart_OHLCV.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
+            this.chart_OHLCV.ChartAreas.Add(chartArea2);
+            legend1.Alignment = System.Drawing.StringAlignment.Center;
+            legend1.LegendItemOrder = System.Windows.Forms.DataVisualization.Charting.LegendItemOrder.ReversedSeriesOrder;
+            legend1.Name = "Legend_OHLCV";
             this.chart_OHLCV.Legends.Add(legend1);
             this.chart_OHLCV.Location = new System.Drawing.Point(32, 549);
             this.chart_OHLCV.Name = "chart_OHLCV";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
+            series1.ChartArea = "ChartArea_OHLC";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
+            series1.CustomProperties = "PriceDownColor=Red, PriceUpColor=Lime";
+            series1.Legend = "Legend_OHLCV";
+            series1.Name = "Series_OHLC";
+            series1.XValueMember = "Date";
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series1.YValueMembers = "High,Low,Open,Close";
+            series1.YValuesPerPoint = 4;
+            series2.ChartArea = "ChartArea_Volume";
+            series2.Legend = "Legend_OHLCV";
+            series2.Name = "Series_Volume";
+            series2.XValueMember = "Date";
+            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series2.YValueMembers = "Volume";
             this.chart_OHLCV.Series.Add(series1);
+            this.chart_OHLCV.Series.Add(series2);
             this.chart_OHLCV.Size = new System.Drawing.Size(2942, 729);
             this.chart_OHLCV.TabIndex = 2;
-            this.chart_OHLCV.Text = "chart1";
+            this.chart_OHLCV.Text = "chart_OHLCV";
             // 
             // openFileDialog_stockFilePick
             // 

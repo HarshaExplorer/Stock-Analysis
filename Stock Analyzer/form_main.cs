@@ -52,6 +52,9 @@ namespace Stock_Analyzer
             candlesticks = candlesticks.OrderBy(c => c.Date).ToList();
             bindCandlesticks = new BindingList<CandleStick>(candlesticks);
             dataGridView_stockview.DataSource = bindCandlesticks;
+
+            chart_OHLCV.DataSource = bindCandlesticks;
+            chart_OHLCV.DataBind();
             Text = "Stock Viewer";
         }
     }
