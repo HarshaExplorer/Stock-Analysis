@@ -166,7 +166,9 @@
             // 
             // chart_OHLCV
             // 
+            chartArea1.BorderWidth = 2;
             chartArea1.Name = "ChartArea_OHLC";
+            chartArea2.BorderWidth = 2;
             chartArea2.Name = "ChartArea_Volume";
             this.chart_OHLCV.ChartAreas.Add(chartArea1);
             this.chart_OHLCV.ChartAreas.Add(chartArea2);
@@ -193,7 +195,7 @@
             series2.YValueMembers = "Volume";
             this.chart_OHLCV.Series.Add(series1);
             this.chart_OHLCV.Series.Add(series2);
-            this.chart_OHLCV.Size = new System.Drawing.Size(2942, 729);
+            this.chart_OHLCV.Size = new System.Drawing.Size(2942, 922);
             this.chart_OHLCV.TabIndex = 2;
             this.chart_OHLCV.Text = "chart_OHLCV";
             // 
@@ -264,7 +266,7 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(3025, 1343);
+            this.ClientSize = new System.Drawing.Size(3025, 1499);
             this.Controls.Add(this.chart_OHLCV);
             this.Controls.Add(this.dataGridView_stockview);
             this.Controls.Add(this.groupBox_actionPanel);
