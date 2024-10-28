@@ -13,6 +13,7 @@ namespace Stock_Analyzer
         public List<CandleStick> LoadStockData(string filePath)
         {
             var candlesticks = new List<CandleStick>();
+            bool blankRowEncounterWarned = false;
 
             try
             {
@@ -58,8 +59,12 @@ namespace Stock_Analyzer
                         }
                         catch (ArgumentException ex)
                         {
-                            MessageBox.Show("Error parsing the stock data!  Make sure your input file is properly formatted and has no blank values.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            Console.WriteLine($"Error creating CandleStick: {ex.Message}. Line: {line}");
+                            if (!blankRowEncounterWarned)
+                            {
+                                blankRowEncounterWarned = true;
+                                MessageBox.Show("While parsing the input stock data, some rows in the CSV contained blank values. These rows will be omitted during processing.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                                Console.WriteLine($"Error creating CandleStick: {ex.Message}. Line: {line}");
                         }
                     }
                 }
