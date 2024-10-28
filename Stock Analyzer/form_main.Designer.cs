@@ -130,6 +130,7 @@
             this.button_update.TabIndex = 1;
             this.button_update.Text = "Update";
             this.button_update.UseVisualStyleBackColor = true;
+            this.button_update.Click += new System.EventHandler(this.button_update_Click);
             // 
             // button_loadStocks
             // 

@@ -16,10 +16,12 @@ namespace Stock_Analyzer
 
         //List of all candlesticks read from file
         private List<CandleStick> candlesticks = null;
-        private StockLoader stockLoader = null;
-        private DateTime startDate, endDate;
         //Binding list of candlesticks bound to DataGridView 
         private BindingList<CandleStick> bindCandlesticks = null;
+        private List<CandleStick> filteredCandlesticks = null;
+        private StockLoader stockLoader = null;
+        private DateTime startDate, endDate;
+
         public form_main()
         {
             InitializeComponent();
@@ -56,22 +58,31 @@ namespace Stock_Analyzer
             if (candlesticks.Count > 0)
             {
                 candlesticks = candlesticks.OrderBy(c => c.Date).ToList();
-
-                filterCandlesticksByDate();
-
-                bindCandlesticks = new BindingList<CandleStick>(candlesticks);
-                dataGridView_stockview.DataSource = bindCandlesticks;
+                filteredCandlesticks = filterCandlesticksByDate();
+                bindCandlesticks = new BindingList<CandleStick>(filteredCandlesticks);
 
                 adjustChart();
-                chart_OHLCV.DataSource = bindCandlesticks;
-                chart_OHLCV.DataBind();
+                bindCandlestickData();
+
                 Text = "Stock Viewer - " + Path.GetFileName(inputFile);
             }
         }
 
-        private void filterCandlesticksByDate()
+        private void bindCandlestickData()
         {
-            
+            dataGridView_stockview.DataSource = bindCandlesticks;
+            chart_OHLCV.DataSource = bindCandlesticks;
+            chart_OHLCV.DataBind();
+        }
+        private List<CandleStick> filterCandlesticksByDate()
+        {
+            List<CandleStick> filteredCandleSticks = new List<CandleStick>(candlesticks.Count);
+
+            foreach(CandleStick c in candlesticks)
+                if(c.Date >= startDate && c.Date <= endDate)
+                    filteredCandleSticks.Add(c);
+
+            return filteredCandleSticks;
         }
 
         private void adjustChart()
@@ -102,6 +113,22 @@ namespace Stock_Analyzer
         private void dateTimePicker_endDate_ValueChanged(object sender, EventArgs e)
         {
             endDate = dateTimePicker_endDate.Value;
+        }
+
+        private void button_update_Click(object sender, EventArgs e)
+        {
+            if (candlesticks.Count == 0)
+                MessageBox.Show("Load stock data first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else if (startDate >= endDate)
+                MessageBox.Show("Start date must be earlier than end date.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                filteredCandlesticks = filterCandlesticksByDate();
+                bindCandlesticks = new BindingList<CandleStick>(filteredCandlesticks);
+
+                adjustChart();
+                bindCandlestickData();
+            }
         }
 
         private void dateTimePicker_startDate_ValueChanged(object sender, EventArgs e)
