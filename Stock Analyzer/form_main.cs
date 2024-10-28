@@ -57,7 +57,7 @@ namespace Stock_Analyzer
         {
             List<CandleStick> newCandlesticks = stockLoader.LoadStockData(inputFile);
 
-            if (newCandlesticks.Count > 0)
+            if (newCandlesticks.Count > 0 && validateFilterDates())
             {
                 candlesticks = newCandlesticks.OrderBy(c => c.Date).ToList();
                 filteredCandlesticks = filterCandlesticksByDate();
@@ -84,11 +84,12 @@ namespace Stock_Analyzer
         {
             List<CandleStick> filteredCandleSticks = new List<CandleStick>(candlesticks.Count);
 
-            foreach(CandleStick c in candlesticks)
-                if(c.Date >= startDate && c.Date <= endDate)
+            foreach (CandleStick c in candlesticks)
+                if (c.Date >= startDate && c.Date <= endDate)
                     filteredCandleSticks.Add(c);
 
             return filteredCandleSticks;
+            
         }
 
         private void adjustChart()
@@ -125,9 +126,7 @@ namespace Stock_Analyzer
         {
             if (candlesticks.Count == 0)
                 MessageBox.Show("Load stock data first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            else if (startDate >= endDate)
-                MessageBox.Show("Start date must be earlier than end date.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            else
+            else if (validateFilterDates())
             {
                 filteredCandlesticks = filterCandlesticksByDate();
                 bindCandlesticks = new BindingList<CandleStick>(filteredCandlesticks);
@@ -137,6 +136,15 @@ namespace Stock_Analyzer
             }
         }
 
+        private bool validateFilterDates()
+        {
+            if (startDate >= endDate)
+                MessageBox.Show("Start date must be earlier than end date.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+                return true;
+
+            return false;
+        }
         private void dateTimePicker_startDate_ValueChanged(object sender, EventArgs e)
         {
             startDate = dateTimePicker_startDate.Value;
