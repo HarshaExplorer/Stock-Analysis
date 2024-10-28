@@ -21,6 +21,7 @@ namespace Stock_Analyzer
         private List<CandleStick> filteredCandlesticks = null;
         private StockLoader stockLoader = null;
         private DateTime startDate, endDate;
+        private String CurrentInputFileName = null;
 
         public form_main()
         {
@@ -41,31 +42,36 @@ namespace Stock_Analyzer
             //On button click change text of window form
             Text = "Stock Viewer - Opening Stock File...";
             //On button click display the file explorer
-            openFileDialog_stockFilePick.ShowDialog();
+            DialogResult dialogResult = openFileDialog_stockFilePick.ShowDialog();
+
+            if(dialogResult == DialogResult.Cancel)
+                Text = "Stock Viewer" + (CurrentInputFileName != null ? (" - "+CurrentInputFileName):(""));
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-            //On button click change text of window form
-            Text = "Stock Viewer - Loading Stock File...";
             processData(openFileDialog_stockFilePick.FileName);
         }
 
         private void processData(string inputFile)
         {
-            candlesticks = stockLoader.LoadStockData(inputFile);
+            List<CandleStick> newCandlesticks = stockLoader.LoadStockData(inputFile);
 
-            if (candlesticks.Count > 0)
+            if (newCandlesticks.Count > 0)
             {
-                candlesticks = candlesticks.OrderBy(c => c.Date).ToList();
+                candlesticks = newCandlesticks.OrderBy(c => c.Date).ToList();
                 filteredCandlesticks = filterCandlesticksByDate();
                 bindCandlesticks = new BindingList<CandleStick>(filteredCandlesticks);
 
                 adjustChart();
                 bindCandlestickData();
 
-                Text = "Stock Viewer - " + Path.GetFileName(inputFile);
+                CurrentInputFileName = Path.GetFileName(inputFile);
+                Text = "Stock Viewer - " + CurrentInputFileName;
             }
+            else
+                Text = "Stock Viewer" + (CurrentInputFileName != null ? (" - " + CurrentInputFileName) : (""));
+
         }
 
         private void bindCandlestickData()
