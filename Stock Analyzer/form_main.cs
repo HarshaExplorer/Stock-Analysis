@@ -17,6 +17,7 @@ namespace Stock_Analyzer
         //List of all candlesticks read from file
         private List<CandleStick> candlesticks = null;
         private StockLoader stockLoader = null;
+        private DateTime startDate, endDate;
         //Binding list of candlesticks bound to DataGridView 
         private BindingList<CandleStick> bindCandlesticks = null;
         public form_main()
@@ -55,17 +56,24 @@ namespace Stock_Analyzer
             {
                 candlesticks = candlesticks.OrderBy(c => c.Date).ToList();
 
+                filterCandlesticksByDate();
+
                 bindCandlesticks = new BindingList<CandleStick>(candlesticks);
                 dataGridView_stockview.DataSource = bindCandlesticks;
 
-                AdjustChart();
+                adjustChart();
                 chart_OHLCV.DataSource = bindCandlesticks;
                 chart_OHLCV.DataBind();
                 Text = "Stock Viewer - " + Path.GetFileName(inputFile);
             }
         }
 
-        private void AdjustChart()
+        private void filterCandlesticksByDate()
+        {
+            
+        }
+
+        private void adjustChart()
         {
       
             decimal min = bindCandlesticks.First().Low, max = 0;
@@ -80,6 +88,16 @@ namespace Stock_Analyzer
             //Set the Y axis of the chart area to (+-)2% of the ranges rounded to 2 decimal places
             chart_OHLCV.ChartAreas["ChartArea_OHLC"].AxisY.Minimum = Math.Floor(Decimal.ToDouble(min) * 0.98);
             chart_OHLCV.ChartAreas["ChartArea_OHLC"].AxisY.Maximum = Math.Ceiling(Decimal.ToDouble(max) * 1.02);
+        }
+
+        private void dateTimePicker_endDate_ValueChanged(object sender, EventArgs e)
+        {
+            endDate = dateTimePicker_endDate.Value;
+        }
+
+        private void dateTimePicker_startDate_ValueChanged(object sender, EventArgs e)
+        {
+            startDate = dateTimePicker_startDate.Value;
         }
     }
 }

@@ -86,6 +86,7 @@
             this.dateTimePicker_endDate.Name = "dateTimePicker_endDate";
             this.dateTimePicker_endDate.Size = new System.Drawing.Size(604, 41);
             this.dateTimePicker_endDate.TabIndex = 5;
+            this.dateTimePicker_endDate.ValueChanged += new System.EventHandler(this.dateTimePicker_endDate_ValueChanged);
             // 
             // label_endDate
             // 
@@ -106,6 +107,7 @@
             this.dateTimePicker_startDate.Name = "dateTimePicker_startDate";
             this.dateTimePicker_startDate.Size = new System.Drawing.Size(604, 41);
             this.dateTimePicker_startDate.TabIndex = 3;
+            this.dateTimePicker_startDate.ValueChanged += new System.EventHandler(this.dateTimePicker_startDate_ValueChanged);
             // 
             // label_startDate
             // 
