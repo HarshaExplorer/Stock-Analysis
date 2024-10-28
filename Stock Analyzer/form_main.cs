@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -57,7 +58,7 @@ namespace Stock_Analyzer
             AdjustChart();
             chart_OHLCV.DataSource = bindCandlesticks;
             chart_OHLCV.DataBind();
-            Text = "Stock Viewer";
+            Text = "Stock Viewer - " + Path.GetFileName(inputFile);
         }
 
         private void AdjustChart()
