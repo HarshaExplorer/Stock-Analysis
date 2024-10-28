@@ -50,15 +50,19 @@ namespace Stock_Analyzer
         private void processData(string inputFile)
         {
             candlesticks = stockLoader.LoadStockData(inputFile);
-            candlesticks = candlesticks.OrderBy(c => c.Date).ToList();
 
-            bindCandlesticks = new BindingList<CandleStick>(candlesticks);
-            dataGridView_stockview.DataSource = bindCandlesticks;
+            if (candlesticks.Count > 0)
+            {
+                candlesticks = candlesticks.OrderBy(c => c.Date).ToList();
 
-            AdjustChart();
-            chart_OHLCV.DataSource = bindCandlesticks;
-            chart_OHLCV.DataBind();
-            Text = "Stock Viewer - " + Path.GetFileName(inputFile);
+                bindCandlesticks = new BindingList<CandleStick>(candlesticks);
+                dataGridView_stockview.DataSource = bindCandlesticks;
+
+                AdjustChart();
+                chart_OHLCV.DataSource = bindCandlesticks;
+                chart_OHLCV.DataBind();
+                Text = "Stock Viewer - " + Path.GetFileName(inputFile);
+            }
         }
 
         private void AdjustChart()
