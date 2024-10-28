@@ -31,6 +31,7 @@ namespace Stock_Analyzer
             stockLoader = new StockLoader();
             openFileDialog_stockFilePick.Filter = "CSV files (*.csv)|*.csv";
             openFileDialog_stockFilePick.Title = "Select a CSV File";
+            preselectDates();
         }
 
         private void button_loadStocks_Click(object sender, EventArgs e)
@@ -90,6 +91,14 @@ namespace Stock_Analyzer
             chart_OHLCV.ChartAreas["ChartArea_OHLC"].AxisY.Maximum = Math.Ceiling(Decimal.ToDouble(max) * 1.02);
         }
 
+        private void preselectDates()
+        {
+            startDate = new DateTime(2020, 01, 01);
+            endDate = DateTime.Now;
+
+            dateTimePicker_startDate.Value = startDate;
+            dateTimePicker_endDate.Value = endDate;
+        }
         private void dateTimePicker_endDate_ValueChanged(object sender, EventArgs e)
         {
             endDate = dateTimePicker_endDate.Value;
@@ -99,5 +108,6 @@ namespace Stock_Analyzer
         {
             startDate = dateTimePicker_startDate.Value;
         }
+
     }
 }
