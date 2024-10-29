@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Stock_Analyzer
 {
-    public partial class form_main : Form
+    public partial class Form_Main : Form
     {
 
         //List of all candlesticks read from file
@@ -30,7 +30,7 @@ namespace Stock_Analyzer
         /// <summary>
         /// Initializes a new instance of the form_main class.
         /// </summary>
-        public form_main()
+        public Form_Main()
         {
             InitializeComponent();
         }
@@ -95,7 +95,7 @@ namespace Stock_Analyzer
                 bindCandlestickData();
 
                 // Update the form title with the loaded file name
-                CurrentInputFileName = Path.GetFileName(inputFile);
+                CurrentInputFileName = Path.GetFileNameWithoutExtension(inputFile); 
                 Text = "Stock Viewer - " + CurrentInputFileName;
             }
             else

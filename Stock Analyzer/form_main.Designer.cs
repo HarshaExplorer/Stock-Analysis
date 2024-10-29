@@ -1,6 +1,6 @@
 ﻿namespace Stock_Analyzer
 {
-    partial class form_main
+    partial class Form_Main
     {
         /// <summary>
         /// Required designer variable.
@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.groupBox_actionPanel = new System.Windows.Forms.GroupBox();
             this.dateTimePicker_endDate = new System.Windows.Forms.DateTimePicker();
             this.label_endDate = new System.Windows.Forms.Label();
@@ -42,8 +42,6 @@
             this.button_update = new System.Windows.Forms.Button();
             this.button_loadStocks = new System.Windows.Forms.Button();
             this.dataGridView_stockview = new System.Windows.Forms.DataGridView();
-            this.chart_OHLCV = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.openFileDialog_stockFilePick = new System.Windows.Forms.OpenFileDialog();
             this.dateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.openDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.highDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,11 +49,13 @@
             this.closeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.volumeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.candleStickBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.chart_OHLCV = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.openFileDialog_stockFilePick = new System.Windows.Forms.OpenFileDialog();
             this.formmainBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox_actionPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_stockview)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart_OHLCV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.candleStickBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_OHLCV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.formmainBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,13 +76,6 @@
             this.groupBox_actionPanel.TabIndex = 0;
             this.groupBox_actionPanel.TabStop = false;
             this.groupBox_actionPanel.Text = "Action Panel";
-
-            //
-            // openFileDialog_stockFilePick
-            // 
-            openFileDialog_stockFilePick.Filter = "CSV files (*.csv)|*.csv|Monthly files|*-Month.csv|Weekly files|*-Week.csv|Daily files|*-Day.csv";
-            openFileDialog_stockFilePick.Title = "Select a CSV File";
-
             // 
             // dateTimePicker_endDate
             // 
@@ -174,45 +167,6 @@
             this.dataGridView_stockview.Size = new System.Drawing.Size(2000, 447);
             this.dataGridView_stockview.TabIndex = 1;
             // 
-            // chart_OHLCV
-            // 
-            chartArea1.BorderWidth = 2;
-            chartArea1.Name = "ChartArea_OHLC";
-            chartArea2.BorderWidth = 2;
-            chartArea2.Name = "ChartArea_Volume";
-            this.chart_OHLCV.ChartAreas.Add(chartArea1);
-            this.chart_OHLCV.ChartAreas.Add(chartArea2);
-            legend1.Alignment = System.Drawing.StringAlignment.Center;
-            legend1.LegendItemOrder = System.Windows.Forms.DataVisualization.Charting.LegendItemOrder.ReversedSeriesOrder;
-            legend1.Name = "Legend_OHLCV";
-            this.chart_OHLCV.Legends.Add(legend1);
-            this.chart_OHLCV.Location = new System.Drawing.Point(32, 549);
-            this.chart_OHLCV.Name = "chart_OHLCV";
-            series1.ChartArea = "ChartArea_OHLC";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
-            series1.CustomProperties = "PriceDownColor=Red, PriceUpColor=Lime";
-            series1.Legend = "Legend_OHLCV";
-            series1.Name = "Series_OHLC";
-            series1.XValueMember = "Date";
-            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            series1.YValueMembers = "High,Low,Open,Close";
-            series1.YValuesPerPoint = 4;
-            series2.ChartArea = "ChartArea_Volume";
-            series2.Legend = "Legend_OHLCV";
-            series2.Name = "Series_Volume";
-            series2.XValueMember = "Date";
-            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            series2.YValueMembers = "Volume";
-            this.chart_OHLCV.Series.Add(series1);
-            this.chart_OHLCV.Series.Add(series2);
-            this.chart_OHLCV.Size = new System.Drawing.Size(2942, 922);
-            this.chart_OHLCV.TabIndex = 2;
-            this.chart_OHLCV.Text = "chart_OHLCV";
-            // 
-            // openFileDialog_stockFilePick
-            // 
-            this.openFileDialog_stockFilePick.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
-            // 
             // dateDataGridViewTextBoxColumn
             // 
             this.dateDataGridViewTextBoxColumn.DataPropertyName = "Date";
@@ -265,11 +219,53 @@
             // 
             this.candleStickBindingSource.DataSource = typeof(Stock_Analyzer.CandleStick);
             // 
+            // chart_OHLCV
+            // 
+            chartArea3.BorderWidth = 2;
+            chartArea3.Name = "ChartArea_OHLC";
+            chartArea4.BorderWidth = 2;
+            chartArea4.Name = "ChartArea_Volume";
+            this.chart_OHLCV.ChartAreas.Add(chartArea3);
+            this.chart_OHLCV.ChartAreas.Add(chartArea4);
+            legend2.Alignment = System.Drawing.StringAlignment.Center;
+            legend2.LegendItemOrder = System.Windows.Forms.DataVisualization.Charting.LegendItemOrder.ReversedSeriesOrder;
+            legend2.Name = "Legend_OHLCV";
+            this.chart_OHLCV.Legends.Add(legend2);
+            this.chart_OHLCV.Location = new System.Drawing.Point(32, 549);
+            this.chart_OHLCV.Name = "chart_OHLCV";
+            series3.ChartArea = "ChartArea_OHLC";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
+            series3.CustomProperties = "PriceDownColor=Red, PriceUpColor=Lime";
+            series3.Legend = "Legend_OHLCV";
+            series3.Name = "Series_OHLC";
+            series3.XValueMember = "Date";
+            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series3.YValueMembers = "High,Low,Open,Close";
+            series3.YValuesPerPoint = 4;
+            series4.ChartArea = "ChartArea_Volume";
+            series4.Legend = "Legend_OHLCV";
+            series4.Name = "Series_Volume";
+            series4.XValueMember = "Date";
+            series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series4.YValueMembers = "Volume";
+            this.chart_OHLCV.Series.Add(series3);
+            this.chart_OHLCV.Series.Add(series4);
+            this.chart_OHLCV.Size = new System.Drawing.Size(2942, 922);
+            this.chart_OHLCV.TabIndex = 2;
+            this.chart_OHLCV.Text = "chart_OHLCV";
+            // 
+            // openFileDialog_stockFilePick
+            // 
+            this.openFileDialog_stockFilePick.Filter = "CSV files (*.csv)|*.csv|Monthly files|*-Month.csv|Weekly files|*-Week.csv|Daily f" +
+    "iles|*-Day.csv";
+            this.openFileDialog_stockFilePick.Title = "Select a CSV File";
+            this.openFileDialog_stockFilePick.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+            // 
             // formmainBindingSource
             // 
-            this.formmainBindingSource.DataSource = typeof(Stock_Analyzer.form_main);
+            this.formmainBindingSource.DataSource = typeof(Stock_Analyzer.Form_Main);
             // 
-            // form_main
+            // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -281,15 +277,15 @@
             this.Controls.Add(this.dataGridView_stockview);
             this.Controls.Add(this.groupBox_actionPanel);
             this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.Name = "form_main";
+            this.Name = "Form_Main";
             this.Padding = new System.Windows.Forms.Padding(30);
             this.Text = "Stock Viewer";
             this.Load += new System.EventHandler(this.form_main_Load);
             this.groupBox_actionPanel.ResumeLayout(false);
             this.groupBox_actionPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_stockview)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart_OHLCV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.candleStickBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_OHLCV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.formmainBindingSource)).EndInit();
             this.ResumeLayout(false);
 
