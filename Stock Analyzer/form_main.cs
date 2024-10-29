@@ -44,8 +44,6 @@ namespace Stock_Analyzer
         {
             candlesticks = new List<CandleStick>(1500);
             stockLoader = new StockLoader();
-            openFileDialog_stockFilePick.Filter = "CSV files (*.csv)|*.csv";
-            openFileDialog_stockFilePick.Title = "Select a CSV File";
             preselectDates();
         }
 

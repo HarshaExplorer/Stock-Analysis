@@ -76,6 +76,13 @@
             this.groupBox_actionPanel.TabIndex = 0;
             this.groupBox_actionPanel.TabStop = false;
             this.groupBox_actionPanel.Text = "Action Panel";
+
+            //
+            // openFileDialog_stockFilePick
+            // 
+            openFileDialog_stockFilePick.Filter = "CSV files (*.csv)|*.csv|Monthly files|*-Month.csv|Weekly files|*-Week.csv|Daily files|*-Day.csv";
+            openFileDialog_stockFilePick.Title = "Select a CSV File";
+
             // 
             // dateTimePicker_endDate
             // 
