@@ -41,6 +41,7 @@ namespace Stock_Analyzer
                     var columnIndexMap = new Dictionary<string, int>();
                     for (int i = 0; i < headers.Length; i++)
                     {
+                        // Trim the excess whitespaces and convert to lowercase for each header column
                         headers[i] = headers[i].ToLower().Trim();
                         columnIndexMap[headers[i]] = i;
                     }
@@ -48,6 +49,7 @@ namespace Stock_Analyzer
                     // Ensure all required headers are present
                     foreach (var key in headerKeys) 
                         if (!columnIndexMap.ContainsKey(key))
+                            // If the a required column is not present in the header of the input file, throw InvalidDataException
                             throw new InvalidDataException("CSV headers are not as expected. Headers must contain (in any order): " + String.Join(",",headerKeys));
                     
 
@@ -60,7 +62,7 @@ namespace Stock_Analyzer
 
                         try
                         {
-                            // Map CSV columns to corresponding candlestick propertie
+                            // Map CSV columns to corresponding candlestick properties
                             string dateStr = values[columnIndexMap["date"]];
                             string openStr = values[columnIndexMap["open"]];
                             string highStr = values[columnIndexMap["high"]];
@@ -78,9 +80,9 @@ namespace Stock_Analyzer
                             if (!blankRowEncounterWarned)
                             {
                                 blankRowEncounterWarned = true;
+                                // Alert the user regarding unclean input data
                                 MessageBox.Show("While parsing the input stock data, some rows in the CSV contained blank values. These rows will be omitted during processing.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
-                                Console.WriteLine($"Error creating CandleStick: {ex.Message}. Line: {line}");
                         }
                     }
                 }
@@ -89,16 +91,15 @@ namespace Stock_Analyzer
             {
                 // Handle missing or invalid headers
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Console.WriteLine($"An error occurred while loading stock data: {ex.Message}.");
             }
             catch (Exception ex)
             {
                 // Handle general exceptions such as file format issues
                 MessageBox.Show("An error occurred while loading stock data! Make sure your input file is properly formatted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Console.WriteLine($"An error occurred while loading stock data: {ex.Message}.");
             }
-            
-            return candlesticks; // Return the list of parsed candlestick objects
+
+            // Return the list of parsed candlestick objects
+            return candlesticks; 
         }
     }
 }

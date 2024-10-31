@@ -42,8 +42,11 @@ namespace Stock_Analyzer
         /// <param name="e">Event data related to form loading.</param>
         private void form_main_Load(object sender, EventArgs e)
         {
+            // Initialize the list that will hold all candlesticks parsed from input data
             candlesticks = new List<CandleStick>(1500);
+            // Initialize an object of StockLoader that will load the stock input data and parse it
             stockLoader = new StockLoader();
+            // Pre-select the start & end dates for user convenience
             preselectDates();
         }
 
@@ -58,7 +61,7 @@ namespace Stock_Analyzer
             Text = "Stock Viewer - Opening Stock File...";
             // Display the file explorer to select a input stock data file
             DialogResult dialogResult = openFileDialog_stockFilePick.ShowDialog();
-
+            // If the user close the file dialog with choosing an input file, then adjust the window title
             if(dialogResult == DialogResult.Cancel)
                 Text = "Stock Viewer" + (CurrentInputFileName != null ? (" - "+CurrentInputFileName):(""));
         }
@@ -85,8 +88,11 @@ namespace Stock_Analyzer
             // Validate loaded data and apply date filters
             if (newCandlesticks.Count > 0 && validateFilterDates())
             {
+                // Sort the candlesticks by date from oldest to newest
                 candlesticks = newCandlesticks.OrderBy(c => c.Date).ToList();
+                // Filter the sorted candlesticks by selected date range
                 filteredCandlesticks = filterCandlesticksByDate();
+                // Create a binding list for feeding the candlesticks to both DataGridView and Chart controls
                 bindCandlesticks = new BindingList<CandleStick>(filteredCandlesticks);
                 
                 // Adjust chart settings based on data
@@ -99,6 +105,7 @@ namespace Stock_Analyzer
                 Text = "Stock Viewer - " + CurrentInputFileName;
             }
             else
+                // Adjust the window title to reflect the current stock data file being processed
                 Text = "Stock Viewer" + (CurrentInputFileName != null ? (" - " + CurrentInputFileName) : (""));
 
         }
@@ -108,7 +115,9 @@ namespace Stock_Analyzer
         /// </summary>
         private void bindCandlestickData()
         {
+            // Bind candlesticks to DataGridView
             dataGridView_stockview.DataSource = bindCandlesticks;
+            // Bind candlesticks to Chart controls
             chart_OHLCV.DataSource = bindCandlesticks;
             chart_OHLCV.DataBind();
         }
@@ -171,16 +180,21 @@ namespace Stock_Analyzer
         /// <param name="sender">The object that triggered the event.</param>
         /// <param name="e">Event data related to button click.</param>
         private void button_update_Click(object sender, EventArgs e)
-        {
+        {   
+            // If no data is loaded, alert the user to load input stock data first 
             if (candlesticks.Count == 0)
                 MessageBox.Show("Load stock data first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             else if (validateFilterDates())
             {
+                // If the date range is valid, then filter the candlesticks by the chosen date range
                 filteredCandlesticks = filterCandlesticksByDate();
+                // Create a new binding list with the updated filtered candlesticks
                 bindCandlesticks = new BindingList<CandleStick>(filteredCandlesticks);
 
-                adjustChart(); // Adjust chart settings
-                bindCandlestickData(); // Bind filtered data to UI controls
+                // normalize chart axes
+                adjustChart();
+                // Bind filtered data to UI controls
+                bindCandlestickData(); 
             }
         }
 
@@ -190,11 +204,14 @@ namespace Stock_Analyzer
         /// <returns>True if the date range is valid; otherwise, false.</returns>
         private bool validateFilterDates()
         {
+            // Start date should be earlier than end date
             if (startDate >= endDate)
                 MessageBox.Show("Start date must be earlier than end date.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             else
+                // If the date range is valid
                 return true;
 
+            // If the date range is invalid
             return false;
         }
 
@@ -205,6 +222,7 @@ namespace Stock_Analyzer
         /// <param name="e">Event data related to value change.</param>
         private void dateTimePicker_startDate_ValueChanged(object sender, EventArgs e)
         {
+            // Update the start date to newly chosen start date
             startDate = dateTimePicker_startDate.Value;
         }
 
@@ -215,6 +233,7 @@ namespace Stock_Analyzer
         /// <param name="e">Event data related to value change.</param>
         private void dateTimePicker_endDate_ValueChanged(object sender, EventArgs e)
         {
+            // Update the end date to newly chosen end date
             endDate = dateTimePicker_endDate.Value;
         }
 
