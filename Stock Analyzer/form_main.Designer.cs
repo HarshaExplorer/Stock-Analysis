@@ -139,6 +139,7 @@
             // 
             chartArea1.BorderWidth = 2;
             chartArea1.Name = "ChartArea_OHLC";
+            chartArea2.AlignWithChartArea = "ChartArea_OHLC";
             chartArea2.BorderWidth = 2;
             chartArea2.Name = "ChartArea_Volume";
             this.chart_OHLCV.ChartAreas.Add(chartArea1);
