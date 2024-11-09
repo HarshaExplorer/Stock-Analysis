@@ -16,7 +16,7 @@ namespace Stock_Analyzer
 
         //List of all candlesticks read from file
         private List<CandleStick> candlesticks = null;
-        /// Binding list of candlesticks bound to DataGridView & chart_OHLCV for data/graph display
+        /// Binding list of candlesticks bound to chart_OHLCV for graph display
         private BindingList<CandleStick> bindCandlesticks = null;
         // List to store filtered candlestick data based on date range
         private List<CandleStick> filteredCandlesticks = null;
@@ -92,7 +92,7 @@ namespace Stock_Analyzer
                 candlesticks = newCandlesticks.OrderBy(c => c.Date).ToList();
                 // Filter the sorted candlesticks by selected date range
                 filteredCandlesticks = filterCandlesticksByDate();
-                // Create a binding list for feeding the candlesticks to both DataGridView and Chart controls
+                // Create a binding list for feeding the candlesticks to the chart controls
                 bindCandlesticks = new BindingList<CandleStick>(filteredCandlesticks);
                 
                 // Adjust chart settings based on data
@@ -111,12 +111,10 @@ namespace Stock_Analyzer
         }
 
         /// <summary>
-        /// Binds the candlestick data to the DataGridView and chart controls.
+        /// Binds the candlestick data to the chart controls.
         /// </summary>
         private void bindCandlestickData()
         {
-            // Bind candlesticks to DataGridView
-            dataGridView_stockview.DataSource = bindCandlesticks;
             // Bind candlesticks to Chart controls
             chart_OHLCV.DataSource = bindCandlesticks;
             chart_OHLCV.DataBind();

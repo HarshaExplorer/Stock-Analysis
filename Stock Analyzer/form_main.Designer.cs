@@ -41,19 +41,11 @@
             this.label_startDate = new System.Windows.Forms.Label();
             this.button_update = new System.Windows.Forms.Button();
             this.button_loadStocks = new System.Windows.Forms.Button();
-            this.dataGridView_stockview = new System.Windows.Forms.DataGridView();
-            this.dateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.openDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.highDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lowDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.closeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.volumeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.candleStickBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.chart_OHLCV = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.openFileDialog_stockFilePick = new System.Windows.Forms.OpenFileDialog();
             this.formmainBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox_actionPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_stockview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.candleStickBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart_OHLCV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.formmainBindingSource)).BeginInit();
@@ -144,77 +136,6 @@
             this.button_loadStocks.UseVisualStyleBackColor = true;
             this.button_loadStocks.Click += new System.EventHandler(this.button_loadStocks_Click);
             // 
-            // dataGridView_stockview
-            // 
-            this.dataGridView_stockview.AllowUserToAddRows = false;
-            this.dataGridView_stockview.AllowUserToDeleteRows = false;
-            this.dataGridView_stockview.AllowUserToOrderColumns = true;
-            this.dataGridView_stockview.AutoGenerateColumns = false;
-            this.dataGridView_stockview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_stockview.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dateDataGridViewTextBoxColumn,
-            this.openDataGridViewTextBoxColumn,
-            this.highDataGridViewTextBoxColumn,
-            this.lowDataGridViewTextBoxColumn,
-            this.closeDataGridViewTextBoxColumn,
-            this.volumeDataGridViewTextBoxColumn});
-            this.dataGridView_stockview.DataSource = this.candleStickBindingSource;
-            this.dataGridView_stockview.Location = new System.Drawing.Point(974, 47);
-            this.dataGridView_stockview.MinimumSize = new System.Drawing.Size(2000, 447);
-            this.dataGridView_stockview.Name = "dataGridView_stockview";
-            this.dataGridView_stockview.RowHeadersWidth = 102;
-            this.dataGridView_stockview.RowTemplate.Height = 40;
-            this.dataGridView_stockview.Size = new System.Drawing.Size(2000, 447);
-            this.dataGridView_stockview.TabIndex = 1;
-            // 
-            // dateDataGridViewTextBoxColumn
-            // 
-            this.dateDataGridViewTextBoxColumn.DataPropertyName = "Date";
-            this.dateDataGridViewTextBoxColumn.HeaderText = "Date";
-            this.dateDataGridViewTextBoxColumn.MinimumWidth = 12;
-            this.dateDataGridViewTextBoxColumn.Name = "dateDataGridViewTextBoxColumn";
-            this.dateDataGridViewTextBoxColumn.Width = 180;
-            // 
-            // openDataGridViewTextBoxColumn
-            // 
-            this.openDataGridViewTextBoxColumn.DataPropertyName = "Open";
-            this.openDataGridViewTextBoxColumn.HeaderText = "Open";
-            this.openDataGridViewTextBoxColumn.MinimumWidth = 12;
-            this.openDataGridViewTextBoxColumn.Name = "openDataGridViewTextBoxColumn";
-            this.openDataGridViewTextBoxColumn.Width = 180;
-            // 
-            // highDataGridViewTextBoxColumn
-            // 
-            this.highDataGridViewTextBoxColumn.DataPropertyName = "High";
-            this.highDataGridViewTextBoxColumn.HeaderText = "High";
-            this.highDataGridViewTextBoxColumn.MinimumWidth = 12;
-            this.highDataGridViewTextBoxColumn.Name = "highDataGridViewTextBoxColumn";
-            this.highDataGridViewTextBoxColumn.Width = 180;
-            // 
-            // lowDataGridViewTextBoxColumn
-            // 
-            this.lowDataGridViewTextBoxColumn.DataPropertyName = "Low";
-            this.lowDataGridViewTextBoxColumn.HeaderText = "Low";
-            this.lowDataGridViewTextBoxColumn.MinimumWidth = 12;
-            this.lowDataGridViewTextBoxColumn.Name = "lowDataGridViewTextBoxColumn";
-            this.lowDataGridViewTextBoxColumn.Width = 180;
-            // 
-            // closeDataGridViewTextBoxColumn
-            // 
-            this.closeDataGridViewTextBoxColumn.DataPropertyName = "Close";
-            this.closeDataGridViewTextBoxColumn.HeaderText = "Close";
-            this.closeDataGridViewTextBoxColumn.MinimumWidth = 12;
-            this.closeDataGridViewTextBoxColumn.Name = "closeDataGridViewTextBoxColumn";
-            this.closeDataGridViewTextBoxColumn.Width = 180;
-            // 
-            // volumeDataGridViewTextBoxColumn
-            // 
-            this.volumeDataGridViewTextBoxColumn.DataPropertyName = "Volume";
-            this.volumeDataGridViewTextBoxColumn.HeaderText = "Volume";
-            this.volumeDataGridViewTextBoxColumn.MinimumWidth = 12;
-            this.volumeDataGridViewTextBoxColumn.Name = "volumeDataGridViewTextBoxColumn";
-            this.volumeDataGridViewTextBoxColumn.Width = 180;
-            // 
             // candleStickBindingSource
             // 
             this.candleStickBindingSource.DataSource = typeof(Stock_Analyzer.CandleStick);
@@ -274,7 +195,6 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(3025, 1499);
             this.Controls.Add(this.chart_OHLCV);
-            this.Controls.Add(this.dataGridView_stockview);
             this.Controls.Add(this.groupBox_actionPanel);
             this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Name = "Form_Main";
@@ -283,7 +203,6 @@
             this.Load += new System.EventHandler(this.form_main_Load);
             this.groupBox_actionPanel.ResumeLayout(false);
             this.groupBox_actionPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_stockview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.candleStickBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart_OHLCV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.formmainBindingSource)).EndInit();
@@ -300,17 +219,10 @@
         private System.Windows.Forms.Label label_endDate;
         private System.Windows.Forms.DateTimePicker dateTimePicker_startDate;
         private System.Windows.Forms.DateTimePicker dateTimePicker_endDate;
-        private System.Windows.Forms.DataGridView dataGridView_stockview;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart_OHLCV;
         private System.Windows.Forms.OpenFileDialog openFileDialog_stockFilePick;
         private System.Windows.Forms.BindingSource candleStickBindingSource;
         private System.Windows.Forms.BindingSource formmainBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dateDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn openDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn highDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn lowDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn closeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn volumeDataGridViewTextBoxColumn;
     }
 }
 
