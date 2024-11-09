@@ -166,7 +166,7 @@ namespace Stock_Analyzer
         /// </summary>
         private void preselectDates()
         {
-            startDate = new DateTime(2020, 01, 01); // Default start date
+            startDate = new DateTime(2022, 01, 01); // Default start date
             endDate = DateTime.Now; // Default end date
 
             // Set date pickers to the initial date range
