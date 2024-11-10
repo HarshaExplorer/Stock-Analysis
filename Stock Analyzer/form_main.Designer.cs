@@ -86,6 +86,7 @@
             // 
             this.openFileDialog_stockFilePick.Filter = "CSV files (*.csv)|*.csv|Monthly files|*-Month.csv|Weekly files|*-Week.csv|Daily f" +
     "iles|*-Day.csv";
+            this.openFileDialog_stockFilePick.Multiselect = true;
             this.openFileDialog_stockFilePick.Title = "Select a CSV File";
             this.openFileDialog_stockFilePick.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 

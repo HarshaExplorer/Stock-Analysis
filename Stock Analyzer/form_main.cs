@@ -38,6 +38,17 @@ namespace Stock_Analyzer
             InitializeComponent();
         }
 
+        public Form_Main(string inputFilePath, DateTime start, DateTime end)
+        {
+            InitializeComponent();
+
+            //Set date from parent form
+            dateTimePicker_startDate.Value = startDate = start;
+            dateTimePicker_endDate.Value = endDate = end;
+
+            processData(inputFilePath);
+        }
+
         /// <summary>
         /// Event handler for form load event. Initializes data and pre-selects default dates.
         /// </summary>
