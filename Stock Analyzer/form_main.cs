@@ -102,6 +102,10 @@ namespace Stock_Analyzer
                 
                 // Adjust chart settings based on data
                 adjustChart();
+
+                // Clear any annotations on the chart area from previous processing
+                chart_OHLCV.Annotations.Clear();
+
                 // Bind data to UI controls
                 bindCandlestickData();
 
@@ -209,6 +213,8 @@ namespace Stock_Analyzer
 
                 // normalize chart axes
                 adjustChart();
+                // Clear any annotations on the chart area from previous processing
+                chart_OHLCV.Annotations.Clear();
                 // Bind filtered data to UI controls
                 bindCandlestickData(); 
             }
