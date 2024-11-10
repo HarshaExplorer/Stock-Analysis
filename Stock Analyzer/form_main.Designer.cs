@@ -206,7 +206,6 @@
             this.Padding = new System.Windows.Forms.Padding(29, 31, 29, 31);
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
             this.Text = "Stock Viewer";
-            this.Load += new System.EventHandler(this.form_main_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart_OHLCV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.candleStickBindingSource)).EndInit();

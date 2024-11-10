@@ -36,11 +36,13 @@ namespace Stock_Analyzer
         public Form_Main()
         {
             InitializeComponent();
+            InitializeForm();
         }
 
         public Form_Main(string inputFilePath, DateTime start, DateTime end)
         {
             InitializeComponent();
+            InitializeForm();
 
             //Set date from parent form
             dateTimePicker_startDate.Value = startDate = start;
@@ -49,12 +51,7 @@ namespace Stock_Analyzer
             processData(inputFilePath);
         }
 
-        /// <summary>
-        /// Event handler for form load event. Initializes data and pre-selects default dates.
-        /// </summary>
-        /// <param name="sender">The object that triggered the event.</param>
-        /// <param name="e">Event data related to form loading.</param>
-        private void form_main_Load(object sender, EventArgs e)
+        private void InitializeForm()
         {
             // Initialize the list that will hold all candlesticks parsed from input data
             candlesticks = new List<CandleStick>(1500);
@@ -89,7 +86,30 @@ namespace Stock_Analyzer
         /// <param name="e">Event data related to file selection.</param>
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-            processData(openFileDialog_stockFilePick.FileName);
+            // processData(openFileDialog_stockFilePick.FileName);
+
+            int numOfInputFiles = openFileDialog_stockFilePick.FileNames.Count();
+            String InputFile;
+            Form_Main stockViewerForm;
+
+            for (int i = 0; i < numOfInputFiles; i++)
+            {
+                InputFile = openFileDialog_stockFilePick.FileNames[i];
+
+                if (i == 0)
+                {
+                    stockViewerForm = this;
+                    processData(InputFile);
+                }
+                else
+                {
+                    stockViewerForm = new Form_Main(InputFile, startDate, endDate);
+                }
+
+
+                stockViewerForm.Show();
+                stockViewerForm.BringToFront();
+            }
         }
 
         /// <summary>
