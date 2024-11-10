@@ -35,22 +35,36 @@ namespace Stock_Analyzer
         /// </summary>
         public Form_Main()
         {
+            // Initialize form components
             InitializeComponent();
+            // Set up form elements and initial data
             InitializeForm();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Form_Main class with the specified stock data file and date range.
+        /// </summary>
+        /// <param name="inputFilePath">The path to the stock data file to be processed.</param>
+        /// <param name="start">The start date for data filtering.</param>
+        /// <param name="end">The end date for data filtering.</param>
         public Form_Main(string inputFilePath, DateTime start, DateTime end)
         {
+            // Initialize form components
             InitializeComponent();
+            // Set up form elements and initial data
             InitializeForm();
 
-            //Set date from parent form
+            // Set the start and end dates based on values passed from the parent form
             dateTimePicker_startDate.Value = startDate = start;
             dateTimePicker_endDate.Value = endDate = end;
 
+            // Process the input file to load and display stock data
             processData(inputFilePath);
         }
 
+        /// <summary>
+        /// Initializes the form's key components and settings, including candlestick data, stock loader, date selection, and pattern options.
+        /// </summary>
         private void InitializeForm()
         {
             // Initialize the list that will hold all candlesticks parsed from input data
@@ -80,33 +94,40 @@ namespace Stock_Analyzer
         }
 
         /// <summary>
-        /// Event handler for confirming file selection. Processes the chosen file.
+        /// Event handler for file selection confirmation in the openFileDialog. 
+        /// Processes selected stock data files and displays each in a separate Form_Main instance.
         /// </summary>
-        /// <param name="sender">The object that triggered the event.</param>
-        /// <param name="e">Event data related to file selection.</param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Provides data for a cancelable event.</param>
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-            // processData(openFileDialog_stockFilePick.FileName);
-
+            // Get the count of selected files in the open file dialog
             int numOfInputFiles = openFileDialog_stockFilePick.FileNames.Count();
+            // Variable to hold the path of each input file
             String InputFile;
+            // Variable to reference the form displaying each stock file data
             Form_Main stockViewerForm;
 
+            // Iterate through each selected file to process and display it
             for (int i = 0; i < numOfInputFiles; i++)
             {
+                // Retrieve the path of the current file
                 InputFile = openFileDialog_stockFilePick.FileNames[i];
 
                 if (i == 0)
                 {
+                    // If it's the first file, use the current form instance
                     stockViewerForm = this;
+                    // Process and display the data in the current form
                     processData(InputFile);
                 }
                 else
                 {
+                    // For additional input files, create a new Form_Main instance with specified parameters
                     stockViewerForm = new Form_Main(InputFile, startDate, endDate);
                 }
 
-
+                // Show the form and bring it to the front
                 stockViewerForm.Show();
                 stockViewerForm.BringToFront();
             }
@@ -279,37 +300,56 @@ namespace Stock_Analyzer
             startDate = dateTimePicker_startDate.Value;
         }
 
+        /// <summary>
+        /// Event handler for when a pattern is selected in comboBox_patterns.
+        /// Highlights the chosen candlestick pattern on the chart if stock data is loaded.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">Event data associated with the selection change.</param>
         private void comboBox_patterns_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // If no data is loaded, alert the user to load input stock data first 
+            // If no candlestick data is loaded, show a warning message to the user and exit
             if (candlesticks.Count == 0)
             {
                 MessageBox.Show("Load stock data first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
-            } 
+            }
 
+            // Clear any existing annotations on the chart
             chart_OHLCV.Annotations.Clear();
+            // Retrieve the selected pattern from the combo box
             String patternChosen = comboBox_patterns.SelectedItem.ToString();
-            SmartCandleStick scs = null;
+            // Temporary variable to hold each SmartCandleStick instance
+            SmartCandleStick scs;
 
+            // Exit if the default "--Select--" option is chosen
             if (patternChosen == "--Select--")
                 return;
 
+            // Iterate through all bound candlesticks to identify and mark matching patterns
             for (int i = 0; i < bindCandlesticks.Count; i++)
             {
+                // Create a SmartCandleStick instance from the current candlestick in the binding list
                 scs = new SmartCandleStick(bindCandlesticks[i]);
-
+                // Get the corresponding DataPoint on the chart
                 DataPoint dp = chart_OHLCV.Series[0].Points[i];
 
-                if(scs != null && scs.patternTypes[patternChosen])
+                // If the SmartCandleStick matches the selected pattern, create an annotation marker
+                if (scs != null && scs.patternTypes[patternChosen])
                 {
+                    // Create an arrow annotation to mark the pattern
                     ArrowAnnotation marker = new ArrowAnnotation();
+                    // Align marker with X-axis and Y-Axis
                     marker.AxisX = chart_OHLCV.ChartAreas[0].AxisX;
                     marker.AxisY = chart_OHLCV.ChartAreas[0].AxisY;
+                    // Set marker width and height
                     marker.Width = marker.Height = 0.5;
+                    // Set marker color to Azure
                     marker.BackColor = Color.Azure;
-                    marker.SetAnchor(dp);
 
+                    // Anchor the marker to the matching DataPoint on the chart
+                    marker.SetAnchor(dp);
+                    // Add the annotation marker to the chart
                     chart_OHLCV.Annotations.Add(marker);
                 }
             }

@@ -41,8 +41,14 @@ namespace Stock_Analyzer
             InitializePatternTypes();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the SmartCandleStick class based on an existing CandleStick instance.
+        /// Copies all CandleStick properties and calculates additional SmartCandleStick properties.
+        /// </summary>
+        /// <param name="cs">The CandleStick instance from which to initialize this SmartCandleStick.</param>
         public SmartCandleStick(CandleStick cs)
         {
+            // Copy basic candlestick properties from the provided CandleStick instance
             Date = cs.Date;
             Open = cs.Open;
             High = cs.High;
@@ -50,7 +56,9 @@ namespace Stock_Analyzer
             Close = cs.Close;
             Volume = cs.Volume;
 
+            // Compute properties specific to SmartCandleStick
             ComputeSmartProperties();
+            // Initialize pattern detection types for this SmartCandleStick instance
             InitializePatternTypes();
         }
 
