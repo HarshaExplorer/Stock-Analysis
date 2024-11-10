@@ -268,7 +268,9 @@ namespace Stock_Analyzer
                 // Clear any annotations on the chart area from previous processing
                 chart_OHLCV.Annotations.Clear();
                 // Bind filtered data to UI controls
-                bindCandlestickData(); 
+                bindCandlestickData();
+                // Detect & draw patterns if any selected 
+                comboBox_patterns_SelectedIndexChanged(null, EventArgs.Empty);
             }
         }
 
