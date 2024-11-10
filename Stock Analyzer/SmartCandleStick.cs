@@ -80,23 +80,23 @@ namespace Stock_Analyzer
                 // Bearish
                 { "Bearish", Close < Open },
 
-                // Neutral
-                { "Neutral", Close == Open }, 
+                // Neutral - tolerance 10%
+                { "Neutral", BodyRange < (Range * 0.1m) }, 
 
-                // Marubozu
-                { "Marubozu", UpperTail == 0 && LowerTail == 0 },
+                // Marubozu - tolerance 4%
+                { "Marubozu", BodyRange > (Range * 0.96m) },
 
                 // Hammer (min and max range detection)
-                { "Hammer", BodyRange <= Range * 0.3m && LowerTail >= Range * 0.6m && UpperTail <= Range * 0.1m },
+                { "Hammer", BodyRange >= Range * 0.15m && BodyRange <= Range * 0.3m && LowerTail >= Range * 0.6m},
                
-                // Doji
-                { "Doji", BodyRange <= Range * 0.1m },
+                // Doji - tolerance 5%
+                { "Doji", BodyRange <= Range * 0.05m },
               
                 // Dragonfly doji
-                { "Dragonfly Doji", BodyRange <= Range * 0.1m && UpperTail == 0 && LowerTail > 0 },
+                { "Dragonfly Doji", BodyRange <= (Range * 0.05m) && LowerTail > (Range * 0.6m) },
               
                 // Gravestone doji
-                { "Gravestone Doji", BodyRange <= Range * 0.1m && LowerTail == 0 && UpperTail > 0 }
+                { "Gravestone Doji", BodyRange <= (Range * 0.05m) && UpperTail > (Range * 0.6m) }
             };
         }
 
