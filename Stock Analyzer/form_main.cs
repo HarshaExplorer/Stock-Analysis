@@ -28,7 +28,7 @@ namespace Stock_Analyzer
         // Stores the name of the currently loaded file
         private String currentInputFileName = null;
         // Array to store the list of supported patterns 
-        private String[] candlestickPatterns = { "Bullish", "Bearish", "Neutral", "Marubozu", "Hammer", "Doji", "Dragonfly Doji", "Gravestone Doji" };
+        private String[] candlestickPatterns = { "Bullish", "Bearish", "Neutral", "Marubozu", "Hammer", "Doji", "Dragonfly Doji", "Gravestone Doji", "--Select--"};
 
         /// <summary>
         /// Initializes a new instance of the form_main class.
@@ -255,11 +255,14 @@ namespace Stock_Analyzer
             {
                 MessageBox.Show("Load stock data first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
-            }
+            } 
 
             chart_OHLCV.Annotations.Clear();
             String patternChosen = comboBox_patterns.SelectedItem.ToString();
             SmartCandleStick scs = null;
+
+            if (patternChosen == "--Select--")
+                return;
 
             for (int i = 0; i < bindCandlesticks.Count; i++)
             {
