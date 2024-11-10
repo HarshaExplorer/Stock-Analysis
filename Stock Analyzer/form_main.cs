@@ -25,7 +25,9 @@ namespace Stock_Analyzer
         // Variables for storing start and end dates for filtering
         private DateTime startDate, endDate;
         // Stores the name of the currently loaded file
-        private String CurrentInputFileName = null;
+        private String currentInputFileName = null;
+        // Array to store the list of supported patterns 
+        private String[] candlestickPatterns = { "Bullish", "Bearish", "Neutral", "Marubozu", "Hammer", "Doji", "Dragonfly Doji", "Gravestone Doji" };
 
         /// <summary>
         /// Initializes a new instance of the form_main class.
@@ -48,6 +50,8 @@ namespace Stock_Analyzer
             stockLoader = new StockLoader();
             // Pre-select the start & end dates for user convenience
             preselectDates();
+            // Populate the comboBox_patterns
+            populateComboBoxPatterns();
         }
 
         /// <summary>
@@ -63,7 +67,7 @@ namespace Stock_Analyzer
             DialogResult dialogResult = openFileDialog_stockFilePick.ShowDialog();
             // If the user close the file dialog with choosing an input file, then adjust the window title
             if(dialogResult == DialogResult.Cancel)
-                Text = "Stock Viewer" + (CurrentInputFileName != null ? (" - "+CurrentInputFileName):(""));
+                Text = "Stock Viewer" + (currentInputFileName != null ? (" - "+currentInputFileName):(""));
         }
 
         /// <summary>
@@ -101,12 +105,12 @@ namespace Stock_Analyzer
                 bindCandlestickData();
 
                 // Update the form title with the loaded file name
-                CurrentInputFileName = Path.GetFileNameWithoutExtension(inputFile); 
-                Text = "Stock Viewer - " + CurrentInputFileName;
+                currentInputFileName = Path.GetFileNameWithoutExtension(inputFile); 
+                Text = "Stock Viewer - " + currentInputFileName;
             }
             else
                 // Adjust the window title to reflect the current stock data file being processed
-                Text = "Stock Viewer" + (CurrentInputFileName != null ? (" - " + CurrentInputFileName) : (""));
+                Text = "Stock Viewer" + (currentInputFileName != null ? (" - " + currentInputFileName) : (""));
 
         }
 
@@ -170,6 +174,19 @@ namespace Stock_Analyzer
             // Set date pickers to the initial date range
             dateTimePicker_startDate.Value = startDate;
             dateTimePicker_endDate.Value = endDate;
+        }
+
+        /// <summary>
+        /// Populates the comboBox_patterns with available candlestick patterns from the candlestickPatterns list.
+        /// </summary>
+        private void populateComboBoxPatterns()
+        {
+            // Clear any existing items in the comboBox to avoid duplicates
+            comboBox_patterns.Items.Clear();
+
+            // Add each candlestick pattern from candlestickPatterns list to the comboBox
+            foreach (String pattern in candlestickPatterns)
+                comboBox_patterns.Items.Add(pattern);   
         }
 
         /// <summary>
