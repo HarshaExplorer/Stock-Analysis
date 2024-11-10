@@ -41,7 +41,7 @@ namespace Stock_Analyzer
             InitializePatternTypes();
         }
 
-        public SmartCandleStick(CandleStick cs): base(cs.Date.ToShortDateString(), cs.Open.ToString(), cs.High.ToString(), cs.Low.ToString(), cs.Close.ToString(), cs.Volume.ToString())
+        public SmartCandleStick(CandleStick cs)
         {
             Date = cs.Date;
             Open = cs.Open;

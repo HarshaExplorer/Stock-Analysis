@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Stock_Analyzer
 {
@@ -239,6 +240,39 @@ namespace Stock_Analyzer
         {
             // Update the start date to newly chosen start date
             startDate = dateTimePicker_startDate.Value;
+        }
+
+        private void comboBox_patterns_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // If no data is loaded, alert the user to load input stock data first 
+            if (candlesticks.Count == 0)
+            {
+                MessageBox.Show("Load stock data first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            chart_OHLCV.Annotations.Clear();
+            String patternChosen = comboBox_patterns.SelectedItem.ToString();
+            SmartCandleStick scs = null;
+
+            for (int i = 0; i < bindCandlesticks.Count; i++)
+            {
+                scs = new SmartCandleStick(bindCandlesticks[i]);
+
+                DataPoint dp = chart_OHLCV.Series[0].Points[i];
+
+                if(scs != null && scs.patternTypes[patternChosen])
+                {
+                    ArrowAnnotation marker = new ArrowAnnotation();
+                    marker.AxisX = chart_OHLCV.ChartAreas[0].AxisX;
+                    marker.AxisY = chart_OHLCV.ChartAreas[0].AxisY;
+                    marker.Width = marker.Height = 0.5;
+                    marker.BackColor = Color.Azure;
+                    marker.SetAnchor(dp);
+
+                    chart_OHLCV.Annotations.Add(marker);
+                }
+            }
         }
 
 

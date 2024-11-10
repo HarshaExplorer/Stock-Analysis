@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart_OHLCV = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.openFileDialog_stockFilePick = new System.Windows.Forms.OpenFileDialog();
             this.button_loadStocks = new System.Windows.Forms.Button();
@@ -54,30 +54,30 @@
             // 
             // chart_OHLCV
             // 
-            chartArea3.BorderWidth = 2;
-            chartArea3.Name = "ChartArea_OHLC";
-            chartArea4.AlignWithChartArea = "ChartArea_OHLC";
-            chartArea4.BorderWidth = 2;
-            chartArea4.Name = "ChartArea_Volume";
-            this.chart_OHLCV.ChartAreas.Add(chartArea3);
-            this.chart_OHLCV.ChartAreas.Add(chartArea4);
+            chartArea1.BorderWidth = 2;
+            chartArea1.Name = "ChartArea_OHLC";
+            chartArea2.AlignWithChartArea = "ChartArea_OHLC";
+            chartArea2.BorderWidth = 2;
+            chartArea2.Name = "ChartArea_Volume";
+            this.chart_OHLCV.ChartAreas.Add(chartArea1);
+            this.chart_OHLCV.ChartAreas.Add(chartArea2);
             this.chart_OHLCV.Location = new System.Drawing.Point(44, 248);
             this.chart_OHLCV.Name = "chart_OHLCV";
-            series3.ChartArea = "ChartArea_OHLC";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
-            series3.CustomProperties = "PriceDownColor=Red, PriceUpColor=Lime";
-            series3.Name = "Series_OHLC";
-            series3.XValueMember = "Date";
-            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            series3.YValueMembers = "High,Low,Open,Close";
-            series3.YValuesPerPoint = 4;
-            series4.ChartArea = "ChartArea_Volume";
-            series4.Name = "Series_Volume";
-            series4.XValueMember = "Date";
-            series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            series4.YValueMembers = "Volume";
-            this.chart_OHLCV.Series.Add(series3);
-            this.chart_OHLCV.Series.Add(series4);
+            series1.ChartArea = "ChartArea_OHLC";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
+            series1.CustomProperties = "PriceDownColor=Red, PriceUpColor=Lime";
+            series1.Name = "Series_OHLC";
+            series1.XValueMember = "Date";
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series1.YValueMembers = "High,Low,Open,Close";
+            series1.YValuesPerPoint = 4;
+            series2.ChartArea = "ChartArea_Volume";
+            series2.Name = "Series_Volume";
+            series2.XValueMember = "Date";
+            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series2.YValueMembers = "Volume";
+            this.chart_OHLCV.Series.Add(series1);
+            this.chart_OHLCV.Series.Add(series2);
             this.chart_OHLCV.Size = new System.Drawing.Size(3403, 1474);
             this.chart_OHLCV.TabIndex = 2;
             this.chart_OHLCV.Text = "chart_OHLCV";
@@ -163,6 +163,7 @@
             this.comboBox_patterns.Name = "comboBox_patterns";
             this.comboBox_patterns.Size = new System.Drawing.Size(269, 39);
             this.comboBox_patterns.TabIndex = 6;
+            this.comboBox_patterns.SelectedIndexChanged += new System.EventHandler(this.comboBox_patterns_SelectedIndexChanged);
             // 
             // label_pattern
             // 

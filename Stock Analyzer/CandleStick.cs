@@ -77,6 +77,13 @@ namespace Stock_Analyzer
         }
 
         /// <summary>
+        /// Default Constructor
+        /// </summary>
+        public CandleStick()
+        {
+        }
+
+        /// <summary>
         /// Returns a string representation of the CandleStick object, including its date, open, high, low, close, and volume.
         /// </summary>
         /// <returns>A formatted string representing the CandleStick data.</returns>
