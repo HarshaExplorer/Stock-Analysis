@@ -224,6 +224,7 @@ namespace Stock_Analyzer
             startDate = dateTimePicker_startDate.Value;
         }
 
+
         /// <summary>
         /// Event handler for the end date picker value change. Updates the endDate field.
         /// </summary>
