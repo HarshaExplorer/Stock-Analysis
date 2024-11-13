@@ -9,7 +9,7 @@ namespace Stock_Analyzer
 {
     internal class PeakValleyDetector
     {
-        public List<int> Peaks {  get; set; }
+        public List<int> Peaks { get; set; }
 
         public List<int> Valleys { get; set; }
 
@@ -19,9 +19,9 @@ namespace Stock_Analyzer
 
             for (int i = 0; i < candlesticks.Count; i++)
             {
-                prev = candlesticks[i-1];
+                prev = candlesticks[i - 1];
                 curr = candlesticks[i];
-                next = candlesticks[i+1];
+                next = candlesticks[i + 1];
 
                 if (prev == null || curr == null || next == null)
                     continue;
@@ -29,9 +29,10 @@ namespace Stock_Analyzer
                 if (curr.High > prev.High && curr.High > next.High)
                     Peaks.Add(i);
 
-                else if(curr.Low < prev.Low && curr.Low < next.Low)
+                else if (curr.Low < prev.Low && curr.Low < next.Low)
                     Valleys.Add(i);
 
             }
+        }
     }
 }

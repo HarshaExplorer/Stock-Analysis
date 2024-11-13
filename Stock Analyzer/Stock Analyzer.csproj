@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CandleStick.cs" />
+    <Compile Include="PeakValleyDetector.cs" />
     <Compile Include="SmartCandleStick.cs" />
     <Compile Include="StockLoader.cs" />
     <Compile Include="form_main.cs">
