@@ -30,7 +30,7 @@ namespace Stock_Analyzer
         // Stores the name of the currently loaded file
         private String currentInputFileName = null;
         // Array to store the list of supported patterns 
-        private String[] candlestickPatterns = { "Bullish", "Bearish", "Neutral", "Marubozu", "Hammer", "Doji", "Dragonfly Doji", "Gravestone Doji", "--Select--"};
+        private String[] candlestickPatterns = { "Bullish", "Bearish", "Neutral", "Marubozu", "Hammer", "Doji", "Dragonfly Doji", "Gravestone Doji", "Peaks", "Valleys", "--Select--"};
 
         /// <summary>
         /// Initializes a new instance of the form_main class.
@@ -266,6 +266,8 @@ namespace Stock_Analyzer
                 filteredCandlesticks = filterCandlesticksByDate();
                 // Create a new binding list with the updated filtered candlesticks
                 bindCandlesticks = new BindingList<CandleStick>(filteredCandlesticks);
+                // Find all peaks and valleys in new filtered list of candlesticks
+                peakValleyDetector = new PeakValleyDetector(bindCandlesticks);
 
                 // normalize chart axes
                 adjustChart();
@@ -332,31 +334,62 @@ namespace Stock_Analyzer
             if (patternChosen == "--Select--")
                 return;
 
-            // Iterate through all bound candlesticks to identify and mark matching patterns
-            for (int i = 0; i < bindCandlesticks.Count; i++)
+            if (patternChosen == "Peaks" || patternChosen == "Valleys")
             {
-                // Create a SmartCandleStick instance from the current candlestick in the binding list
-                scs = new SmartCandleStick(bindCandlesticks[i]);
-                // Get the corresponding DataPoint on the chart
-                DataPoint dp = chart_OHLCV.Series[0].Points[i];
+                List<int> candlesticksIndexes = (patternChosen == "Peaks") ? (peakValleyDetector.Peaks) : (peakValleyDetector.Valleys);
+                Color annotationColor = (patternChosen == "Peaks") ? (Color.Lime) : (Color.Red);
 
-                // If the SmartCandleStick matches the selected pattern, create an annotation marker
-                if (scs != null && scs.patternTypes[patternChosen])
+                foreach (int index in candlesticksIndexes)
                 {
-                    // Create an arrow annotation to mark the pattern
-                    ArrowAnnotation marker = new ArrowAnnotation();
-                    // Align marker with X-axis and Y-Axis
-                    marker.AxisX = chart_OHLCV.ChartAreas[0].AxisX;
-                    marker.AxisY = chart_OHLCV.ChartAreas[0].AxisY;
-                    // Set marker width and height
-                    marker.Width = marker.Height = 0.5;
-                    // Set marker color to Azure
-                    marker.BackColor = Color.Azure;
+                    if (startDate <= bindCandlesticks[index].Date && bindCandlesticks[index].Date <= endDate)
+                    {
+                        DataPoint dp = chart_OHLCV.Series[0].Points[index];
+                        // Create an arrow annotation to mark the pattern
+                        ArrowAnnotation marker = new ArrowAnnotation();
+                        // Align marker with X-axis and Y-Axis
+                        marker.AxisX = chart_OHLCV.ChartAreas[0].AxisX;
+                        marker.AxisY = chart_OHLCV.ChartAreas[0].AxisY;
+                        // Set marker width and height
+                        marker.Width = marker.Height = 0.5;
+                        // Set marker color to green if peak or red if valley
+                        marker.BackColor = annotationColor;
 
-                    // Anchor the marker to the matching DataPoint on the chart
-                    marker.SetAnchor(dp);
-                    // Add the annotation marker to the chart
-                    chart_OHLCV.Annotations.Add(marker);
+                        // Anchor the marker to the matching DataPoint on the chart
+                        marker.SetAnchor(dp);
+                        // Add the annotation marker to the chart
+                        chart_OHLCV.Annotations.Add(marker);
+
+                    }
+                }
+            }
+            else
+            {
+                // Iterate through all bound candlesticks to identify and mark matching patterns
+                for (int i = 0; i < bindCandlesticks.Count; i++)
+                {
+                    // Create a SmartCandleStick instance from the current candlestick in the binding list
+                    scs = new SmartCandleStick(bindCandlesticks[i]);
+                    // Get the corresponding DataPoint on the chart
+                    DataPoint dp = chart_OHLCV.Series[0].Points[i];
+
+                    // If the SmartCandleStick matches the selected pattern, create an annotation marker
+                    if (scs != null && scs.patternTypes[patternChosen])
+                    {
+                        // Create an arrow annotation to mark the pattern
+                        ArrowAnnotation marker = new ArrowAnnotation();
+                        // Align marker with X-axis and Y-Axis
+                        marker.AxisX = chart_OHLCV.ChartAreas[0].AxisX;
+                        marker.AxisY = chart_OHLCV.ChartAreas[0].AxisY;
+                        // Set marker width and height
+                        marker.Width = marker.Height = 0.5;
+                        // Set marker color to Azure
+                        marker.BackColor = Color.Azure;
+
+                        // Anchor the marker to the matching DataPoint on the chart
+                        marker.SetAnchor(dp);
+                        // Add the annotation marker to the chart
+                        chart_OHLCV.Annotations.Add(marker);
+                    }
                 }
             }
         }
