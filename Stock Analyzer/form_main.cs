@@ -23,6 +23,8 @@ namespace Stock_Analyzer
         private List<CandleStick> filteredCandlesticks = null;
         // Instance of StockLoader for loading stock data from file
         private StockLoader stockLoader = null;
+        // Instance of PeakValleyDetector for identifying peaks & valleys
+        private PeakValleyDetector peakValleyDetector = null;
         // Variables for storing start and end dates for filtering
         private DateTime startDate, endDate;
         // Stores the name of the currently loaded file
@@ -151,6 +153,8 @@ namespace Stock_Analyzer
                 filteredCandlesticks = filterCandlesticksByDate();
                 // Create a binding list for feeding the candlesticks to the chart controls
                 bindCandlesticks = new BindingList<CandleStick>(filteredCandlesticks);
+                // Identify all peaks and valleys in the given list of candlesticks
+                peakValleyDetector = new PeakValleyDetector(bindCandlesticks);
                 
                 // Adjust chart settings based on data
                 adjustChart();

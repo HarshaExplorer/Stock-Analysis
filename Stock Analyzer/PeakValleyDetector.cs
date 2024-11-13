@@ -15,9 +15,12 @@ namespace Stock_Analyzer
 
         public PeakValleyDetector(BindingList<CandleStick> candlesticks)
         {
+            Peaks = new List<int>();
+            Valleys = new List<int>();
+
             CandleStick prev, curr, next;
 
-            for (int i = 0; i < candlesticks.Count; i++)
+            for (int i = 1; i < candlesticks.Count - 1; i++)
             {
                 prev = candlesticks[i - 1];
                 curr = candlesticks[i];
