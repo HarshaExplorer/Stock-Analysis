@@ -267,16 +267,17 @@ namespace Stock_Analyzer
                 // Create a new binding list with the updated filtered candlesticks
                 bindCandlesticks = new BindingList<CandleStick>(filteredCandlesticks);
                 // Find all peaks and valleys in new filtered list of candlesticks
-                peakValleyDetector = new PeakValleyDetector(bindCandlesticks);
+                peakValleyDetector.updatePeaksAndValleys(bindCandlesticks);
 
                 // normalize chart axes
                 adjustChart();
-                // Clear any annotations on the chart area from previous processing
-                chart_OHLCV.Annotations.Clear();
                 // Bind filtered data to UI controls
                 bindCandlestickData();
                 // Detect & draw patterns if any selected 
-                comboBox_patterns_SelectedIndexChanged(null, EventArgs.Empty);
+                if (comboBox_patterns.SelectedItem == null)
+                    comboBox_patterns.SelectedItem = "--Select--";
+
+                comboBox_patterns_SelectedIndexChanged(comboBox_patterns, EventArgs.Empty);
             }
         }
 
@@ -325,6 +326,10 @@ namespace Stock_Analyzer
 
             // Clear any existing annotations on the chart
             chart_OHLCV.Annotations.Clear();
+            // Resize the chart axes and redraw
+            chart_OHLCV.Invalidate();
+            chart_OHLCV.Update();
+
             // Retrieve the selected pattern from the combo box
             String patternChosen = comboBox_patterns.SelectedItem.ToString();
             // Temporary variable to hold each SmartCandleStick instance
@@ -336,30 +341,53 @@ namespace Stock_Analyzer
 
             if (patternChosen == "Peaks" || patternChosen == "Valleys")
             {
-                List<int> candlesticksIndexes = (patternChosen == "Peaks") ? (peakValleyDetector.Peaks) : (peakValleyDetector.Valleys);
-                Color annotationColor = (patternChosen == "Peaks") ? (Color.Lime) : (Color.Red);
+                bool isPeak = (patternChosen == "Peaks") ? (true) : (false);
+                List<int> candlesticksIndexes = (isPeak) ? (peakValleyDetector.Peaks) : (peakValleyDetector.Valleys);
+                Color annotationColor = (isPeak) ? (Color.Lime) : (Color.Red);
+                double min = chart_OHLCV.ChartAreas[0].AxisX.Minimum;
+                double max = chart_OHLCV.ChartAreas[0].AxisX.Maximum;
+
+                
 
                 foreach (int index in candlesticksIndexes)
                 {
-                    if (startDate <= bindCandlesticks[index].Date && bindCandlesticks[index].Date <= endDate)
-                    {
+
                         DataPoint dp = chart_OHLCV.Series[0].Points[index];
                         // Create an arrow annotation to mark the pattern
-                        ArrowAnnotation marker = new ArrowAnnotation();
+                        ArrowAnnotation arrowMarker = new ArrowAnnotation();
                         // Align marker with X-axis and Y-Axis
-                        marker.AxisX = chart_OHLCV.ChartAreas[0].AxisX;
-                        marker.AxisY = chart_OHLCV.ChartAreas[0].AxisY;
+                        arrowMarker.AxisX = chart_OHLCV.ChartAreas[0].AxisX;
+                        arrowMarker.AxisY = chart_OHLCV.ChartAreas[0].AxisY;
                         // Set marker width and height
-                        marker.Width = marker.Height = 0.5;
+                        arrowMarker.Width = arrowMarker.Height = 0.5;
                         // Set marker color to green if peak or red if valley
-                        marker.BackColor = annotationColor;
+                        arrowMarker.BackColor = annotationColor;
 
                         // Anchor the marker to the matching DataPoint on the chart
-                        marker.SetAnchor(dp);
+                        arrowMarker.SetAnchor(dp);
+                        if (!isPeak)
+                         arrowMarker.Y = (double)bindCandlesticks[index].Low;
                         // Add the annotation marker to the chart
-                        chart_OHLCV.Annotations.Add(marker);
+                        chart_OHLCV.Annotations.Add(arrowMarker);
 
-                    }
+                        LineAnnotation lineMarker = new LineAnnotation();
+                        lineMarker.AxisX = chart_OHLCV.ChartAreas[0].AxisX;
+                        lineMarker.AxisY = chart_OHLCV.ChartAreas[0].AxisY;
+                        lineMarker.LineColor = annotationColor;
+                        lineMarker.LineWidth = 1;
+                     
+                        lineMarker.SetAnchor(dp);
+                        lineMarker.X = min;
+                        lineMarker.Y = (isPeak) ? ((double)bindCandlesticks[index].High) : ((double)bindCandlesticks[index].Low);
+                        lineMarker.Width = max - min;
+                        lineMarker.Height = 0;
+                        
+                    
+
+
+
+                    chart_OHLCV.Annotations.Add(lineMarker);
+                    
                 }
             }
             else

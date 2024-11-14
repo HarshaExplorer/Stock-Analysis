@@ -18,6 +18,14 @@ namespace Stock_Analyzer
             Peaks = new List<int>();
             Valleys = new List<int>();
 
+            updatePeaksAndValleys(candlesticks);
+        }
+
+        public void updatePeaksAndValleys(BindingList<CandleStick> candlesticks)
+        {
+            Peaks.Clear();
+            Valleys.Clear();
+
             CandleStick prev, curr, next;
 
             for (int i = 1; i < candlesticks.Count - 1; i++)
