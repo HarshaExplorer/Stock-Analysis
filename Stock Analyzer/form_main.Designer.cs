@@ -66,12 +66,14 @@
             series1.ChartArea = "ChartArea_OHLC";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
             series1.CustomProperties = "PriceDownColor=Red, PriceUpColor=Lime";
+            series1.IsXValueIndexed = true;
             series1.Name = "Series_OHLC";
             series1.XValueMember = "Date";
             series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series1.YValueMembers = "High,Low,Open,Close";
             series1.YValuesPerPoint = 4;
             series2.ChartArea = "ChartArea_Volume";
+            series2.IsXValueIndexed = true;
             series2.Name = "Series_Volume";
             series2.XValueMember = "Date";
             series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
