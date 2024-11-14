@@ -273,10 +273,12 @@ namespace Stock_Analyzer
                 adjustChart();
                 // Bind filtered data to UI controls
                 bindCandlestickData();
-                // Detect & draw patterns if any selected 
+                
+                // If no option is selected, assign default
                 if (comboBox_patterns.SelectedItem == null)
                     comboBox_patterns.SelectedItem = "--Select--";
 
+                // Detect & draw patterns if any selected 
                 comboBox_patterns_SelectedIndexChanged(comboBox_patterns, EventArgs.Empty);
             }
         }
@@ -339,19 +341,20 @@ namespace Stock_Analyzer
             if (patternChosen == "--Select--")
                 return;
 
+            // Check if the selected pattern is either "Peaks" or "Valleys"
             if (patternChosen == "Peaks" || patternChosen == "Valleys")
             {
+                // Determine if the chosen pattern is "Peaks"; set 'isPeak' to true if so, otherwise false for "Valleys"
                 bool isPeak = (patternChosen == "Peaks") ? (true) : (false);
+                // Get the list of candlestick indices corresponding to peaks or valleys
                 List<int> candlesticksIndexes = (isPeak) ? (peakValleyDetector.Peaks) : (peakValleyDetector.Valleys);
+                // Set the annotation color to green for peaks or red for valleys
                 Color annotationColor = (isPeak) ? (Color.Lime) : (Color.Red);
-                double min = chart_OHLCV.ChartAreas[0].AxisX.Minimum;
-                double max = chart_OHLCV.ChartAreas[0].AxisX.Maximum;
 
-                
-
+                // Loop through each index in the peaks or valleys list
                 foreach (int index in candlesticksIndexes)
                 {
-
+                        // Get the DataPoint on the chart at the current index
                         DataPoint dp = chart_OHLCV.Series[0].Points[index];
                         // Create an arrow annotation to mark the pattern
                         ArrowAnnotation arrowMarker = new ArrowAnnotation();
@@ -365,29 +368,33 @@ namespace Stock_Analyzer
 
                         // Anchor the marker to the matching DataPoint on the chart
                         arrowMarker.SetAnchor(dp);
+
+                        // If the marker represents a valley, set its Y-position to the Low value of the candlestick
                         if (!isPeak)
-                         arrowMarker.Y = (double)bindCandlesticks[index].Low;
+                           arrowMarker.Y = (double)bindCandlesticks[index].Low;
+
                         // Add the annotation marker to the chart
                         chart_OHLCV.Annotations.Add(arrowMarker);
 
+                        // Create a line annotation to draw a horizontal line across the chart at the peak or valley level
                         LineAnnotation lineMarker = new LineAnnotation();
+                        // Align line annotation with X-axis and Y-Axis
                         lineMarker.AxisX = chart_OHLCV.ChartAreas[0].AxisX;
                         lineMarker.AxisY = chart_OHLCV.ChartAreas[0].AxisY;
+                        // Set line color based on the pattern typ
                         lineMarker.LineColor = annotationColor;
+                        // Set line thickness
                         lineMarker.LineWidth = 1;
-                     
-                        lineMarker.SetAnchor(dp);
-                        lineMarker.X = min;
+                        // Set the starting X position of the line to the minimum X-axis value
+                        lineMarker.X = chart_OHLCV.ChartAreas[0].AxisX.Minimum;
+                        // Set the Y position based on the peak's High or valley's Low value
                         lineMarker.Y = (isPeak) ? ((double)bindCandlesticks[index].High) : ((double)bindCandlesticks[index].Low);
-                        lineMarker.Width = max - min;
+                        // Extend the line horizontally across the chart
+                        lineMarker.Width = chart_OHLCV.ChartAreas[0].AxisX.Maximum - chart_OHLCV.ChartAreas[0].AxisX.Minimum;
+                        // Set the line height to 0 to keep it horizontal    
                         lineMarker.Height = 0;
-                        
-                    
-
-
-
-                    chart_OHLCV.Annotations.Add(lineMarker);
-                    
+                        // Add the line annotation to the chart
+                        chart_OHLCV.Annotations.Add(lineMarker);
                 }
             }
             else
