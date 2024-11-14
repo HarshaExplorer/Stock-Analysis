@@ -376,25 +376,30 @@ namespace Stock_Analyzer
                         // Add the annotation marker to the chart
                         chart_OHLCV.Annotations.Add(arrowMarker);
 
-                        // Create a line annotation to draw a horizontal line across the chart at the peak or valley level
-                        LineAnnotation lineMarker = new LineAnnotation();
+                    // Create a line annotation to draw a horizontal line across the chart at the peak or valley level
+                    LineAnnotation lineMarker = new LineAnnotation
+                    {
                         // Align line annotation with X-axis and Y-Axis
-                        lineMarker.AxisX = chart_OHLCV.ChartAreas[0].AxisX;
-                        lineMarker.AxisY = chart_OHLCV.ChartAreas[0].AxisY;
+                        AxisX = chart_OHLCV.ChartAreas[0].AxisX,
+                        AxisY = chart_OHLCV.ChartAreas[0].AxisY,
                         // Set line color based on the pattern typ
-                        lineMarker.LineColor = annotationColor;
+                        LineColor = annotationColor,
                         // Set line thickness
-                        lineMarker.LineWidth = 1;
+                        LineWidth = 1,
                         // Set the starting X position of the line to the minimum X-axis value
-                        lineMarker.X = chart_OHLCV.ChartAreas[0].AxisX.Minimum;
+                        X = chart_OHLCV.ChartAreas[0].AxisX.Minimum,
                         // Set the Y position based on the peak's High or valley's Low value
-                        lineMarker.Y = (isPeak) ? ((double)bindCandlesticks[index].High) : ((double)bindCandlesticks[index].Low);
+                        Y = (isPeak) ? ((double)bindCandlesticks[index].High) : ((double)bindCandlesticks[index].Low),
                         // Extend the line horizontally across the chart
-                        lineMarker.Width = chart_OHLCV.ChartAreas[0].AxisX.Maximum - chart_OHLCV.ChartAreas[0].AxisX.Minimum;
+                        IsInfinitive = true,
+                        // Clip the annotation to the chart area (remove any excess overflow)
+                        ClipToChartArea = chart_OHLCV.ChartAreas[0].Name,
                         // Set the line height to 0 to keep it horizontal    
-                        lineMarker.Height = 0;
-                        // Add the line annotation to the chart
-                        chart_OHLCV.Annotations.Add(lineMarker);
+                        Height = 0,
+                        
+                    };
+                    // Add the line annotation to the chart
+                    chart_OHLCV.Annotations.Add(lineMarker);
                 }
             }
             else
