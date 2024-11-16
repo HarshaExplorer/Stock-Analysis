@@ -2,7 +2,7 @@
 
 https://github.com/user-attachments/assets/12a618a3-b61c-41a8-bd4b-360ed04c48ec
 
-**Stock Viewer** is a .NET Windows Forms application designed for in-depth technical analysis of stock data. The application allows users to load stock data, visualize candlestick charts, and analyze key patterns across multiple windows for comparative insights.**
+**Stock Viewer** is a .NET Windows Forms application designed for in-depth technical analysis of stock data. The application allows users to load stock data, visualize candlestick charts, and analyze key patterns across multiple windows for comparative insights.
 
 ## Features
 
