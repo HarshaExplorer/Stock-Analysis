@@ -1,8 +1,8 @@
-# Stock Viewer
+# Stock Analysis
 
 https://github.com/user-attachments/assets/12a618a3-b61c-41a8-bd4b-360ed04c48ec
 
-**Stock Viewer** allows users to load stock data, visualize candlestick charts, and analyze key patterns across multiple windows for comparative insights.
+A C# .NET desktop application that allows users to load stock data, visualize candlestick charts, and analyze key patterns across multiple windows for comparative insights.
 
 ## Features
 
@@ -35,8 +35,6 @@ Automatically detects and highlights (with annotations) the following candlestic
 - Enables users to anticipate potential price reversals or continuations.
 
 ## Robust Error Handling
-
-Stock Viewer includes comprehensive error-handling features to ensure reliability:
 - Validates input data and alerts users about missing or corrupt files.
 - Prevents crashes by skipping invalid or null data entries during analysis.
 - Displays meaningful error messages when operations cannot be performed, such as attempting to detect patterns without loaded data.
