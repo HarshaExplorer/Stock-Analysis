@@ -126,7 +126,8 @@ namespace Stock_Analyzer
                 else
                 {
                     // For additional input files, create a new Form_Main instance with specified parameters
-                    stockViewerForm = new Form_Main(InputFile, startDate, endDate);
+                   stockViewerForm = new Form_Main(InputFile, startDate, endDate);
+
                 }
 
                 // Show the form and bring it to the front
@@ -375,31 +376,6 @@ namespace Stock_Analyzer
 
                         // Add the annotation marker to the chart
                         chart_OHLCV.Annotations.Add(arrowMarker);
-
-                    // Create a line annotation to draw a horizontal line across the chart at the peak or valley level
-                    LineAnnotation lineMarker = new LineAnnotation
-                    {
-                        // Align line annotation with X-axis and Y-Axis
-                        AxisX = chart_OHLCV.ChartAreas[0].AxisX,
-                        AxisY = chart_OHLCV.ChartAreas[0].AxisY,
-                        // Set line color based on the pattern typ
-                        LineColor = annotationColor,
-                        // Set line thickness
-                        LineWidth = 1,
-                        // Set the starting X position of the line to the minimum X-axis value
-                        X = chart_OHLCV.ChartAreas[0].AxisX.Minimum,
-                        // Set the Y position based on the peak's High or valley's Low value
-                        Y = (isPeak) ? ((double)bindCandlesticks[index].High) : ((double)bindCandlesticks[index].Low),
-                        // Extend the line horizontally across the chart
-                        IsInfinitive = true,
-                        // Clip the annotation to the chart area (remove any excess overflow)
-                        ClipToChartArea = chart_OHLCV.ChartAreas[0].Name,
-                        // Set the line height to 0 to keep it horizontal    
-                        Height = 0,
-                        
-                    };
-                    // Add the line annotation to the chart
-                    chart_OHLCV.Annotations.Add(lineMarker);
                 }
             }
             else
