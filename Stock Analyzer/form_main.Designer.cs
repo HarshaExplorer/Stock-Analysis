@@ -33,6 +33,8 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart_OHLCV = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.openFileDialog_stockFilePick = new System.Windows.Forms.OpenFileDialog();
             this.button_loadStocks = new System.Windows.Forms.Button();
@@ -44,10 +46,13 @@
             this.comboBox_patterns = new System.Windows.Forms.ComboBox();
             this.label_pattern = new System.Windows.Forms.Label();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.chart_beauty = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.button_retracement = new System.Windows.Forms.Button();
             this.candleStickBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.formmainBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.chart_OHLCV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_beauty)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.candleStickBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.formmainBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -80,7 +85,7 @@
             series2.YValueMembers = "Volume";
             this.chart_OHLCV.Series.Add(series1);
             this.chart_OHLCV.Series.Add(series2);
-            this.chart_OHLCV.Size = new System.Drawing.Size(3403, 1474);
+            this.chart_OHLCV.Size = new System.Drawing.Size(3403, 953);
             this.chart_OHLCV.TabIndex = 2;
             this.chart_OHLCV.Text = "chart_OHLCV";
             // 
@@ -178,6 +183,32 @@
             this.label_pattern.TabIndex = 7;
             this.label_pattern.Text = "Detect Pattern:";
             // 
+            // chart_beauty
+            // 
+            chartArea3.Name = "ChartArea_Beauty";
+            this.chart_beauty.ChartAreas.Add(chartArea3);
+            this.chart_beauty.Location = new System.Drawing.Point(44, 1207);
+            this.chart_beauty.Name = "chart_beauty";
+            series3.ChartArea = "ChartArea_Beauty";
+            series3.IsXValueIndexed = true;
+            series3.Name = "Series_Fibonacci_Beauty";
+            series3.XValueMember = "Price";
+            series3.YValueMembers = "Beauty";
+            this.chart_beauty.Series.Add(series3);
+            this.chart_beauty.Size = new System.Drawing.Size(3403, 545);
+            this.chart_beauty.TabIndex = 8;
+            this.chart_beauty.Text = "chart_beauty";
+            // 
+            // button_retracement
+            // 
+            this.button_retracement.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_retracement.Location = new System.Drawing.Point(2908, 33);
+            this.button_retracement.Name = "button_retracement";
+            this.button_retracement.Size = new System.Drawing.Size(539, 199);
+            this.button_retracement.TabIndex = 10;
+            this.button_retracement.Text = "Fibonacci Retracement: Off";
+            this.button_retracement.UseVisualStyleBackColor = true;
+            // 
             // candleStickBindingSource
             // 
             this.candleStickBindingSource.DataSource = typeof(Stock_Analyzer.CandleStick);
@@ -194,6 +225,8 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(3491, 1775);
+            this.Controls.Add(this.button_retracement);
+            this.Controls.Add(this.chart_beauty);
             this.Controls.Add(this.label_pattern);
             this.Controls.Add(this.comboBox_patterns);
             this.Controls.Add(this.dateTimePicker_endDate);
@@ -210,6 +243,7 @@
             this.Text = "Stock Viewer";
             ((System.ComponentModel.ISupportInitialize)(this.chart_OHLCV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_beauty)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.candleStickBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.formmainBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -231,6 +265,8 @@
         private System.Windows.Forms.ComboBox comboBox_patterns;
         private System.Windows.Forms.Label label_pattern;
         private System.Windows.Forms.BindingSource bindingSource1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart_beauty;
+        private System.Windows.Forms.Button button_retracement;
     }
 }
 
