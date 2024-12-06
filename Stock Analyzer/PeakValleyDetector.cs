@@ -71,5 +71,10 @@ namespace Stock_Analyzer
                     Valleys.Add(i);
             }
         }
+
+        public bool isPeakOrValley(int pointIndex)
+        {
+            return Peaks.Contains(pointIndex) || Valleys.Contains(pointIndex);
+        }
     }
 }

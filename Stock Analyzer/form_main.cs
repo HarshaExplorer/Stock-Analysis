@@ -14,6 +14,8 @@ namespace Stock_Analyzer
 {
     public partial class Form_Main : Form
     {
+        
+        
 
         //List of all candlesticks read from file
         private List<CandleStick> candlesticks = null;
@@ -29,6 +31,17 @@ namespace Stock_Analyzer
         private DateTime startDate, endDate;
         // Stores the name of the currently loaded file
         private String currentInputFileName = null;
+        // Stores the state of fibonacci retracement mode - toggle on or off
+        private bool retracementMode = false;
+        // To Track starting mouse interaction for retracement selection
+        private Point startPoint;
+        private Point currentPoint;
+        private bool isDragging = false;
+        private int selectionStartPointIndex, selectionEndPointIndex;
+        private bool validWaveSelected = false;
+        
+        // Instance of RectangleAnnotation for the drawn retracement selection
+        private RectangleAnnotation selectionRectangle = null;
         // Array to store the list of supported patterns 
         private String[] candlestickPatterns = { "Bullish", "Bearish", "Neutral", "Marubozu", "Hammer", "Doji", "Dragonfly Doji", "Gravestone Doji", "Peaks", "Valleys", "--Select--"};
 
@@ -330,8 +343,8 @@ namespace Stock_Analyzer
             // Clear any existing annotations on the chart
             chart_OHLCV.Annotations.Clear();
             // Resize the chart axes and redraw
-            chart_OHLCV.Invalidate();
-            chart_OHLCV.Update();
+            //chart_OHLCV.Invalidate();
+            //chart_OHLCV.Update();
 
             // Retrieve the selected pattern from the combo box
             String patternChosen = comboBox_patterns.SelectedItem.ToString();
@@ -410,6 +423,137 @@ namespace Stock_Analyzer
             }
         }
 
+        private void button_retracement_Click(object sender, EventArgs e)
+        {
+            retracementMode = !retracementMode;
+            button_retracement.Text = (retracementMode) ? ("Fibonacci Retracement: On") : ("Fibonacci Retracement: Off");
+            button_retracement.ForeColor = (retracementMode) ? (Color.LimeGreen) : (Color.Red);
+
+            chart_OHLCV.ChartAreas["ChartArea_Volume"].Visible = !retracementMode;
+        }
+
+        private void chart_OHLCV_MouseDown(object sender, MouseEventArgs e)
+        {
+            // Perform a HitTest to detect where the mouse click occurred
+            HitTestResult hit = chart_OHLCV.HitTest(e.X, e.Y);
+
+            // If no data is loaded, alert the user to load input stock data first 
+            if (candlesticks.Count == 0)
+            {
+                MessageBox.Show("Load stock data first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else if (hit.ChartArea != null && hit.ChartArea.Name == "ChartArea_OHLC")
+            {
+                if (hit.PointIndex >= 0 && peakValleyDetector.isPeakOrValley(hit.PointIndex)) // Ensure a valid point is hit
+                {
+                     selectionStartPointIndex = hit.PointIndex;
+                    // Record starting point and set dragging state
+                    startPoint = e.Location;
+                    isDragging = true; // Start dragging
+                    validWaveSelected = false;
+                }
+                else
+                {
+                    isDragging = false;
+                    MessageBox.Show("MouseDown for rectangle selection must occur on a valid peak/valley candlestick on the chart! Use the Detect Pattern Tool to find peaks or valleys.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+              
+            }
+        }
+
+        private void chart_OHLCV_MouseMove(object sender, MouseEventArgs e)
+        {
+            // Perform a HitTest to detect where the mouse click occurred
+            HitTestResult hit = chart_OHLCV.HitTest(e.X, e.Y);
+
+            if (isDragging && hit.ChartArea != null && hit.ChartArea.Name == "ChartArea_OHLC") 
+            {
+                currentPoint = e.Location; // Update current mouse position
+                selectionEndPointIndex = hit.PointIndex;
+                chart_OHLCV.Invalidate(); // Invalidate the chart to trigger a repaint
+
+            }
+        }
+
+        private void chart_OHLCV_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                isDragging = false; 
+
+                bool isValidRectangleSelection = isValidWave();
+
+                if (isValidRectangleSelection)
+                {
+                    validWaveSelected = true;
+                }
+                else
+                {
+                    MessageBox.Show("Selected wave is not valid! Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                
+            }
+            
+        }
+
+        private void chart_OHLCV_Paint(object sender, PaintEventArgs e)
+        {
+            if (isDragging || validWaveSelected) // Only draw if dragging
+            {
+                
+                // Get the drawing graphics object
+                Graphics g = e.Graphics;
+
+                // Calculate rectangle bounds
+                int x = startPoint.X;
+                int y = Math.Min(startPoint.Y, currentPoint.Y);
+                int width = Math.Abs(currentPoint.X - startPoint.X);
+                int height = Math.Abs(currentPoint.Y - startPoint.Y);
+
+                bool isValidRectangleSelection = isValidWave();
+
+                // Draw the rectangle with a semi-transparent fill and a border
+                using (var fillBrush = new SolidBrush(Color.FromArgb(50, (isValidRectangleSelection) ? (Color.Green) : (Color.Red))))
+                {
+                    g.FillRectangle(fillBrush, x, y, width, height);
+                }
+                using (var pen = new Pen(Color.Red, 1))
+                {
+                    g.DrawRectangle(pen, x, y, width, height);
+                }
+            }
+        }
+
+        private bool isValidWave()
+        {
+            if (selectionEndPointIndex < 0 || selectionStartPointIndex < 0)
+                return false;
+            else
+            {
+                decimal upperBound, lowerBound;
+                if (bindCandlesticks[selectionStartPointIndex].High > bindCandlesticks[selectionEndPointIndex].High)
+                {
+                    upperBound = bindCandlesticks[selectionStartPointIndex].High;
+                    lowerBound = bindCandlesticks[selectionEndPointIndex].Low;
+                }
+                else
+                {
+                    lowerBound = bindCandlesticks[selectionStartPointIndex].Low;
+                    upperBound = bindCandlesticks[selectionEndPointIndex].High;
+                }
+               
+
+                for (int i = selectionStartPointIndex+1; i < selectionEndPointIndex; i++)
+                {
+                    var candlestick = bindCandlesticks[i];
+
+                    if (candlestick.High > upperBound || candlestick.Low < lowerBound)
+                        return false;
+                }
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Event handler for the end date picker value change. Updates the endDate field.

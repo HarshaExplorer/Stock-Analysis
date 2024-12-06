@@ -88,6 +88,10 @@
             this.chart_OHLCV.Size = new System.Drawing.Size(3403, 953);
             this.chart_OHLCV.TabIndex = 2;
             this.chart_OHLCV.Text = "chart_OHLCV";
+            this.chart_OHLCV.Paint += new System.Windows.Forms.PaintEventHandler(this.chart_OHLCV_Paint);
+            this.chart_OHLCV.MouseDown += new System.Windows.Forms.MouseEventHandler(this.chart_OHLCV_MouseDown);
+            this.chart_OHLCV.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chart_OHLCV_MouseMove);
+            this.chart_OHLCV.MouseUp += new System.Windows.Forms.MouseEventHandler(this.chart_OHLCV_MouseUp);
             // 
             // openFileDialog_stockFilePick
             // 
@@ -208,6 +212,7 @@
             this.button_retracement.TabIndex = 10;
             this.button_retracement.Text = "Fibonacci Retracement: Off";
             this.button_retracement.UseVisualStyleBackColor = true;
+            this.button_retracement.Click += new System.EventHandler(this.button_retracement_Click);
             // 
             // candleStickBindingSource
             // 
