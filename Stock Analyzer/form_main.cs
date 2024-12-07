@@ -39,7 +39,8 @@ namespace Stock_Analyzer
         private bool isDragging = false;
         private int selectionStartPointIndex, selectionEndPointIndex;
         private bool validWaveSelected = false;
-        
+        private decimal retracementPercentLeeway = 1;
+
         // Instance of RectangleAnnotation for the drawn retracement selection
         private RectangleAnnotation selectionRectangle = null;
         // Array to store the list of supported patterns 
@@ -86,6 +87,8 @@ namespace Stock_Analyzer
             candlesticks = new List<CandleStick>(1500);
             // Initialize an object of StockLoader that will load the stock input data and parse it
             stockLoader = new StockLoader();
+            // Set default percent leeway for retracement
+            numericUpDown_retracement_leeway.Value = retracementPercentLeeway;
             // Pre-select the start & end dates for user convenience
             preselectDates();
             // Populate the comboBox_patterns
@@ -570,6 +573,11 @@ namespace Stock_Analyzer
                     }
                 }
             }
+        }
+
+        private void numericUpDown_retracement_leeway_ValueChanged(object sender, EventArgs e)
+        {
+            retracementPercentLeeway = numericUpDown_retracement_leeway.Value;
         }
 
         private bool isValidWave()

@@ -48,11 +48,16 @@
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.chart_beauty = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.button_retracement = new System.Windows.Forms.Button();
+            this.numericUpDown_retracement_leeway = new System.Windows.Forms.NumericUpDown();
+            this.label_percentLeeway = new System.Windows.Forms.Label();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.toolTip_percent_leeway = new System.Windows.Forms.ToolTip(this.components);
             this.candleStickBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.formmainBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.chart_OHLCV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart_beauty)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_retracement_leeway)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.candleStickBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.formmainBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -104,7 +109,7 @@
             // button_loadStocks
             // 
             this.button_loadStocks.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_loadStocks.Location = new System.Drawing.Point(1300, 33);
+            this.button_loadStocks.Location = new System.Drawing.Point(1134, 33);
             this.button_loadStocks.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.button_loadStocks.Name = "button_loadStocks";
             this.button_loadStocks.Size = new System.Drawing.Size(395, 134);
@@ -116,10 +121,10 @@
             // button_update
             // 
             this.button_update.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_update.Location = new System.Drawing.Point(1767, 38);
+            this.button_update.Location = new System.Drawing.Point(1590, 38);
             this.button_update.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.button_update.Name = "button_update";
-            this.button_update.Size = new System.Drawing.Size(395, 129);
+            this.button_update.Size = new System.Drawing.Size(406, 129);
             this.button_update.TabIndex = 1;
             this.button_update.Text = "Update";
             this.button_update.UseVisualStyleBackColor = true;
@@ -129,7 +134,7 @@
             // 
             this.label_startDate.AutoSize = true;
             this.label_startDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_startDate.Location = new System.Drawing.Point(820, 50);
+            this.label_startDate.Location = new System.Drawing.Point(654, 50);
             this.label_startDate.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.label_startDate.Name = "label_startDate";
             this.label_startDate.Size = new System.Drawing.Size(194, 38);
@@ -139,7 +144,7 @@
             // dateTimePicker_startDate
             // 
             this.dateTimePicker_startDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker_startDate.Location = new System.Drawing.Point(641, 112);
+            this.dateTimePicker_startDate.Location = new System.Drawing.Point(475, 112);
             this.dateTimePicker_startDate.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.dateTimePicker_startDate.Name = "dateTimePicker_startDate";
             this.dateTimePicker_startDate.Size = new System.Drawing.Size(604, 41);
@@ -150,7 +155,7 @@
             // 
             this.label_endDate.AutoSize = true;
             this.label_endDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_endDate.Location = new System.Drawing.Point(2396, 50);
+            this.label_endDate.Location = new System.Drawing.Point(2230, 50);
             this.label_endDate.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.label_endDate.Name = "label_endDate";
             this.label_endDate.Size = new System.Drawing.Size(181, 38);
@@ -161,7 +166,7 @@
             // 
             this.dateTimePicker_endDate.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateTimePicker_endDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker_endDate.Location = new System.Drawing.Point(2209, 112);
+            this.dateTimePicker_endDate.Location = new System.Drawing.Point(2043, 112);
             this.dateTimePicker_endDate.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.dateTimePicker_endDate.Name = "dateTimePicker_endDate";
             this.dateTimePicker_endDate.Size = new System.Drawing.Size(604, 41);
@@ -171,7 +176,7 @@
             // comboBox_patterns
             // 
             this.comboBox_patterns.FormattingEnabled = true;
-            this.comboBox_patterns.Location = new System.Drawing.Point(1767, 193);
+            this.comboBox_patterns.Location = new System.Drawing.Point(1601, 193);
             this.comboBox_patterns.Name = "comboBox_patterns";
             this.comboBox_patterns.Size = new System.Drawing.Size(269, 39);
             this.comboBox_patterns.TabIndex = 6;
@@ -181,7 +186,7 @@
             // 
             this.label_pattern.AutoSize = true;
             this.label_pattern.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_pattern.Location = new System.Drawing.Point(1438, 193);
+            this.label_pattern.Location = new System.Drawing.Point(1272, 193);
             this.label_pattern.Name = "label_pattern";
             this.label_pattern.Size = new System.Drawing.Size(257, 39);
             this.label_pattern.TabIndex = 7;
@@ -206,13 +211,55 @@
             // button_retracement
             // 
             this.button_retracement.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_retracement.Location = new System.Drawing.Point(2908, 33);
+            this.button_retracement.Location = new System.Drawing.Point(2891, 20);
             this.button_retracement.Name = "button_retracement";
-            this.button_retracement.Size = new System.Drawing.Size(539, 199);
+            this.button_retracement.Size = new System.Drawing.Size(568, 147);
             this.button_retracement.TabIndex = 10;
             this.button_retracement.Text = "Fibonacci Retracement: Off";
             this.button_retracement.UseVisualStyleBackColor = true;
             this.button_retracement.Click += new System.EventHandler(this.button_retracement_Click);
+            // 
+            // numericUpDown_retracement_leeway
+            // 
+            this.numericUpDown_retracement_leeway.DecimalPlaces = 1;
+            this.numericUpDown_retracement_leeway.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDown_retracement_leeway.Location = new System.Drawing.Point(3256, 193);
+            this.numericUpDown_retracement_leeway.Maximum = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
+            this.numericUpDown_retracement_leeway.Name = "numericUpDown_retracement_leeway";
+            this.numericUpDown_retracement_leeway.Size = new System.Drawing.Size(195, 38);
+            this.numericUpDown_retracement_leeway.TabIndex = 11;
+            this.toolTip_percent_leeway.SetToolTip(this.numericUpDown_retracement_leeway, "Max 25%");
+            this.numericUpDown_retracement_leeway.ValueChanged += new System.EventHandler(this.numericUpDown_retracement_leeway_ValueChanged);
+            // 
+            // label_percentLeeway
+            // 
+            this.label_percentLeeway.AutoSize = true;
+            this.label_percentLeeway.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_percentLeeway.Location = new System.Drawing.Point(2901, 190);
+            this.label_percentLeeway.Name = "label_percentLeeway";
+            this.label_percentLeeway.Size = new System.Drawing.Size(285, 39);
+            this.label_percentLeeway.TabIndex = 12;
+            this.label_percentLeeway.Text = "Percent Leeway:";
+            // 
+            // splitter1
+            // 
+            this.splitter1.Location = new System.Drawing.Point(29, 31);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(3, 1713);
+            this.splitter1.TabIndex = 0;
+            this.splitter1.TabStop = false;
+            // 
+            // toolTip_percent_leeway
+            // 
+            this.toolTip_percent_leeway.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
             // candleStickBindingSource
             // 
@@ -230,6 +277,9 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(3491, 1775);
+            this.Controls.Add(this.splitter1);
+            this.Controls.Add(this.label_percentLeeway);
+            this.Controls.Add(this.numericUpDown_retracement_leeway);
             this.Controls.Add(this.button_retracement);
             this.Controls.Add(this.chart_beauty);
             this.Controls.Add(this.label_pattern);
@@ -249,6 +299,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart_OHLCV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart_beauty)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_retracement_leeway)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.candleStickBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.formmainBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -272,6 +323,10 @@
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart_beauty;
         private System.Windows.Forms.Button button_retracement;
+        private System.Windows.Forms.NumericUpDown numericUpDown_retracement_leeway;
+        private System.Windows.Forms.Label label_percentLeeway;
+        private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.ToolTip toolTip_percent_leeway;
     }
 }
 
