@@ -463,6 +463,7 @@ namespace Stock_Analyzer
             {
                 validWaveSelected = false;
                 ClearConfirmations();
+                chart_Beauty.Series[0].Points.Clear();
             }
 
         }

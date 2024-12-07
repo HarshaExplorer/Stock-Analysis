@@ -64,9 +64,17 @@
             // 
             // chart_OHLCV
             // 
+            chartArea1.AxisX.Title = "Date";
+            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea1.AxisY.Title = "Price";
+            chartArea1.AxisY.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             chartArea1.BorderWidth = 2;
             chartArea1.Name = "ChartArea_OHLC";
             chartArea2.AlignWithChartArea = "ChartArea_OHLC";
+            chartArea2.AxisX.Title = "Date";
+            chartArea2.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea2.AxisY.Title = "Volume";
+            chartArea2.AxisY.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             chartArea2.BorderWidth = 2;
             chartArea2.Name = "ChartArea_Volume";
             this.chart_OHLCV.ChartAreas.Add(chartArea1);
@@ -194,6 +202,10 @@
             // 
             // chart_Beauty
             // 
+            chartArea3.AxisX.Title = "Price";
+            chartArea3.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            chartArea3.AxisY.Title = "Beauty";
+            chartArea3.AxisY.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             chartArea3.Name = "ChartArea_Beauty";
             this.chart_Beauty.ChartAreas.Add(chartArea3);
             this.chart_Beauty.Location = new System.Drawing.Point(44, 1207);
