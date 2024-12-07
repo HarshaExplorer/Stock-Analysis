@@ -39,7 +39,7 @@ namespace Stock_Analyzer
         private bool isDragging = false;
         private int selectionStartPointIndex, selectionEndPointIndex;
         private bool validWaveSelected = false;
-        private decimal retracementPercentLeeway = 1;
+        private decimal retracementPercentLeeway = 0.5M;
         private decimal[] fibLevels = { 0.0M, 0.236M, 0.382M, 0.5M, 0.618M, 0.764M, 1.0M};
 
         private List<EllipseAnnotation> retracementConfirmations = null;
@@ -91,6 +91,8 @@ namespace Stock_Analyzer
             candlesticks = new List<CandleStick>(1500);
             // Initialize an object of StockLoader that will load the stock input data and parse it
             stockLoader = new StockLoader();
+            // Initialize the list that will hold all candlesticks confirmations for chosen wave retracement
+            retracementConfirmations = new List<EllipseAnnotation>(50);
             // Set default percent leeway for retracement
             numericUpDown_retracement_leeway.Value = retracementPercentLeeway;
             // Pre-select the start & end dates for user convenience
@@ -176,24 +178,34 @@ namespace Stock_Analyzer
                 bindCandlesticks = new BindingList<CandleStick>(filteredCandlesticks);
                 // Identify all peaks and valleys in the given list of candlesticks
                 peakValleyDetector = new PeakValleyDetector(bindCandlesticks);
-                
+
                 // Adjust chart settings based on data
                 adjustChart();
 
                 // Clear any annotations on the chart area from previous processing
-                chart_OHLCV.Annotations.Clear();
+                ClearAnnotations();
+
 
                 // Bind data to UI controls
                 bindCandlestickData();
 
                 // Update the form title with the loaded file name
-                currentInputFileName = Path.GetFileNameWithoutExtension(inputFile); 
+                currentInputFileName = Path.GetFileNameWithoutExtension(inputFile);
                 Text = "Stock Viewer - " + currentInputFileName;
             }
             else
                 // Adjust the window title to reflect the current stock data file being processed
                 Text = "Stock Viewer" + (currentInputFileName != null ? (" - " + currentInputFileName) : (""));
+        }
 
+        private void ClearAnnotations()
+        {
+            chart_OHLCV.Annotations.Clear();
+            if (validWaveSelected && retracementMode)
+            {
+                foreach (var confirmation in retracementConfirmations)
+                    chart_OHLCV.Annotations.Add(confirmation);
+            }
         }
 
         /// <summary>
@@ -353,7 +365,8 @@ namespace Stock_Analyzer
             }
 
             // Clear any existing annotations on the chart
-            chart_OHLCV.Annotations.Clear();
+            ClearAnnotations();
+
             // Resize the chart axes and redraw
             //chart_OHLCV.Invalidate();
             //chart_OHLCV.Update();
@@ -444,8 +457,18 @@ namespace Stock_Analyzer
             chart_OHLCV.ChartAreas["ChartArea_Volume"].Visible = !retracementMode;
 
             if (!retracementMode)
+            {
                 validWaveSelected = false;
-            
+                ClearConfirmations();
+            }
+
+        }
+
+        private void ClearConfirmations()
+        {
+            foreach (var prevConfirmation in retracementConfirmations)
+                chart_OHLCV.Annotations.Remove(prevConfirmation);
+            retracementConfirmations.Clear();
         }
 
         private void chart_OHLCV_MouseDown(object sender, MouseEventArgs e)
@@ -469,6 +492,7 @@ namespace Stock_Analyzer
                         startPoint = e.Location;
                         isDragging = true; // Start dragging
                         validWaveSelected = false;
+                        ClearConfirmations();
                     }
                     else
                     {
@@ -508,6 +532,9 @@ namespace Stock_Analyzer
                 if (isValidRectangleSelection)
                 {
                     validWaveSelected = true;
+                    MessageBox.Show(
+                        calculateBeauty(bindCandlesticks[selectionEndPointIndex].Low, bindCandlesticks[selectionStartPointIndex].High- bindCandlesticks[selectionEndPointIndex].Low, true).ToString()
+                        );
                 }
                 else
                 {
@@ -614,7 +641,7 @@ namespace Stock_Analyzer
             return true;
         }
 
-        private int CalculateBeauty(decimal basePrice, decimal waveHeight, bool annotateConfirmations)
+        private int calculateBeauty(decimal basePrice, decimal waveHeight, bool annotateConfirmations)
         {
             int beauty = 0;
             decimal price = 0;
@@ -623,28 +650,54 @@ namespace Stock_Analyzer
             
             for (int i = 0; i < fibLevels.Length; i++)
             {
-                price = basePrice + waveHeight * fibLevels[i];
+                price = basePrice + (waveHeight * fibLevels[i]);
                 fibonacciPriceLevels.Add( (price*(1-(retracementPercentLeeway/100)), price*(1+(retracementPercentLeeway/100))) );
             }
 
             for(int i = selectionStartPointIndex; i <= selectionEndPointIndex; i++)
             {
-                var cs = bindCandlesticks[selectionStartPointIndex];
-                foreach ((decimal lowerPrice, decimal upperPrice) in fibonacciPriceLevels)
-                {
-                    if (Decimal.Compare(cs.Open, upperPrice) <= 0 && Decimal.Compare(cs.Open, lowerPrice) >= 0)
-                        beauty++;
-                    if (Decimal.Compare(cs.High, upperPrice) <= 0 && Decimal.Compare(cs.High, lowerPrice) >= 0)
-                        beauty++;
-                    if (Decimal.Compare(cs.Low, upperPrice) <= 0 && Decimal.Compare(cs.Low, lowerPrice) >= 0)
-                        beauty++;
-                    if (Decimal.Compare(cs.Close, upperPrice) <= 0 && Decimal.Compare(cs.Close, lowerPrice) >= 0)
-                        beauty++;
+                var cs = bindCandlesticks[i];
+                var dataPoint = chart_OHLCV.Series[0].Points[i];
+                 
+                    void compareAndAnnotate(decimal value)
+                    {
+                        foreach ((decimal lowerPrice, decimal upperPrice) in fibonacciPriceLevels)
+                        {
+                            if (Decimal.Compare(value, upperPrice) <= 0 && Decimal.Compare(value, lowerPrice) >= 0)
+                            {
+                                beauty++;
+                                if (annotateConfirmations)
+                                {
+                                     // Create an EllipseAnnotation
+                                     EllipseAnnotation dot = new EllipseAnnotation
+                                     {
+                                         AxisX = chart_OHLCV.ChartAreas[0].AxisX,
+                                         AxisY = chart_OHLCV.ChartAreas[0].AxisY,
+                                         IsSizeAlwaysRelative = true, 
+                                         AnchorDataPoint = dataPoint,
+                                         Y = (double)value,     // Attach to the confirmed OHLC position
+                                         Width = 0.5,             // Small width for a dot
+                                         Height = 1,            // Small height for a dot
+                                         BackColor = Color.Yellow, // Color of the dot
+                                         ClipToChartArea = "ChartArea_OHLC",
+                                     };
+                                      
+                                      retracementConfirmations.Add(dot);
+                                     // Add the annotation to the chart
+                                     chart_OHLCV.Annotations.Add(dot);
+                                }
+                            
+                            }
+                        }
 
-                    //Annotation to Add
-                }
+                        
+                    }
+
+                     compareAndAnnotate(cs.Open);
+                     compareAndAnnotate(cs.High);
+                     compareAndAnnotate(cs.Low);
+                     compareAndAnnotate(cs.Close);
             }
-
             return beauty;
         }
         /// <summary>
