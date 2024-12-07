@@ -317,6 +317,10 @@ namespace Stock_Analyzer
                 // Detect & draw patterns if any selected 
                 comboBox_patterns_SelectedIndexChanged(comboBox_patterns, EventArgs.Empty);
             }
+            else if (retracementMode && validWaveSelected)
+            {
+                performRetracement();
+            }
         }
 
         /// <summary>
@@ -537,25 +541,7 @@ namespace Stock_Analyzer
                 if (isValidRectangleSelection)
                 {
                     validWaveSelected = true;
-
-                    bool isWaveDownward = (bindCandlesticks[selectionStartPointIndex].High > bindCandlesticks[selectionEndPointIndex].High);
-                    decimal basePrice, waveHeight;
-
-                    decimal selectedWaveBasePrice = (isWaveDownward) ? (bindCandlesticks[selectionEndPointIndex].Low) : (bindCandlesticks[selectionEndPointIndex].High);
-
-                    foreach (decimal beautyRange in beautyLevels)
-                    {
-                        basePrice = selectedWaveBasePrice * (1 + beautyRange);
-
-                        if (isWaveDownward)
-                            waveHeight = bindCandlesticks[selectionStartPointIndex].High - basePrice;
-                        else
-                            waveHeight = basePrice - bindCandlesticks[selectionStartPointIndex].Low;
-
-
-                        chart_Beauty.Series[0].Points.AddXY(Math.Round(basePrice, 2), calculateBeauty(basePrice, waveHeight, (beautyRange == 0)));
-                        
-                    }
+                    performRetracement();
                 }
                 else
                 {
@@ -564,6 +550,28 @@ namespace Stock_Analyzer
                 
             }
             
+        }
+
+        private void performRetracement()
+        {
+            bool isWaveDownward = (bindCandlesticks[selectionStartPointIndex].High > bindCandlesticks[selectionEndPointIndex].High);
+            decimal basePrice, waveHeight;
+
+            decimal selectedWaveBasePrice = (isWaveDownward) ? (bindCandlesticks[selectionEndPointIndex].Low) : (bindCandlesticks[selectionEndPointIndex].High);
+
+            foreach (decimal beautyRange in beautyLevels)
+            {
+                basePrice = selectedWaveBasePrice * (1 + beautyRange);
+
+                if (isWaveDownward)
+                    waveHeight = bindCandlesticks[selectionStartPointIndex].High - basePrice;
+                else
+                    waveHeight = basePrice - bindCandlesticks[selectionStartPointIndex].Low;
+
+
+                chart_Beauty.Series[0].Points.AddXY(Math.Round(basePrice, 2), calculateBeauty(basePrice, waveHeight, (beautyRange == 0)));
+
+            }
         }
 
         private void chart_OHLCV_Paint(object sender, PaintEventArgs e)
