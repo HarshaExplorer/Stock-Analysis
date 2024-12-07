@@ -274,7 +274,7 @@ namespace Stock_Analyzer
             // If no data is loaded, alert the user to load input stock data first 
             if (candlesticks.Count == 0)
                 MessageBox.Show("Load stock data first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            else if (validateFilterDates())
+            else if (validateFilterDates() && !validWaveSelected)
             {
                 // If the date range is valid, then filter the candlesticks by the chosen date range
                 filteredCandlesticks = filterCandlesticksByDate();
@@ -327,6 +327,7 @@ namespace Stock_Analyzer
             else
                 MessageBox.Show("Date controls are locked when there is an active Fibonacci retracement on the chart.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
+            dateTimePicker_startDate.Value = startDate; 
         }
 
         /// <summary>
@@ -434,54 +435,64 @@ namespace Stock_Analyzer
             button_retracement.ForeColor = (retracementMode) ? (Color.LimeGreen) : (Color.Red);
 
             chart_OHLCV.ChartAreas["ChartArea_Volume"].Visible = !retracementMode;
+
+            if (!retracementMode)
+                validWaveSelected = false;
+            
         }
 
         private void chart_OHLCV_MouseDown(object sender, MouseEventArgs e)
         {
-            // Perform a HitTest to detect where the mouse click occurred
-            HitTestResult hit = chart_OHLCV.HitTest(e.X, e.Y);
+            if (retracementMode)
+            {
+                // Perform a HitTest to detect where the mouse click occurred
+                HitTestResult hit = chart_OHLCV.HitTest(e.X, e.Y);
 
-            // If no data is loaded, alert the user to load input stock data first 
-            if (candlesticks.Count == 0)
-            {
-                MessageBox.Show("Load stock data first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else if (hit.ChartArea != null && hit.ChartArea.Name == "ChartArea_OHLC")
-            {
-                if (hit.PointIndex >= 0 && peakValleyDetector.isPeakOrValley(hit.PointIndex)) // Ensure a valid point is hit
+                // If no data is loaded, alert the user to load input stock data first 
+                if (candlesticks.Count == 0)
                 {
-                     selectionStartPointIndex = hit.PointIndex;
-                    // Record starting point and set dragging state
-                    startPoint = e.Location;
-                    isDragging = true; // Start dragging
-                    validWaveSelected = false;
+                    MessageBox.Show("Load stock data first.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-                else
+                else if (hit.ChartArea != null && hit.ChartArea.Name == "ChartArea_OHLC")
                 {
-                    isDragging = false;
-                    MessageBox.Show("MouseDown for rectangle selection must occur on a valid peak/valley candlestick on the chart! Use the Detect Pattern Tool to find peaks or valleys.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if (hit.PointIndex >= 0 && peakValleyDetector.isPeakOrValley(hit.PointIndex)) // Ensure a valid point is hit
+                    {
+                        selectionStartPointIndex = hit.PointIndex;
+                        // Record starting point and set dragging state
+                        startPoint = e.Location;
+                        isDragging = true; // Start dragging
+                        validWaveSelected = false;
+                    }
+                    else
+                    {
+                        isDragging = false;
+                        MessageBox.Show("MouseDown for rectangle selection must occur on a valid peak/valley candlestick on the chart! Use the Detect Pattern Tool to find peaks or valleys.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+
                 }
-              
             }
         }
 
         private void chart_OHLCV_MouseMove(object sender, MouseEventArgs e)
         {
-            // Perform a HitTest to detect where the mouse click occurred
-            HitTestResult hit = chart_OHLCV.HitTest(e.X, e.Y);
-
-            if (isDragging && hit.ChartArea != null && hit.ChartArea.Name == "ChartArea_OHLC") 
+            if (retracementMode)
             {
-                currentPoint = e.Location; // Update current mouse position
-                selectionEndPointIndex = hit.PointIndex;
-                chart_OHLCV.Invalidate(); // Invalidate the chart to trigger a repaint
+                // Perform a HitTest to detect where the mouse click occurred
+                HitTestResult hit = chart_OHLCV.HitTest(e.X, e.Y);
 
+                if (isDragging && hit.ChartArea != null && hit.ChartArea.Name == "ChartArea_OHLC")
+                {
+                    currentPoint = e.Location; // Update current mouse position
+                    selectionEndPointIndex = hit.PointIndex;
+                    chart_OHLCV.Invalidate(); // Invalidate the chart to trigger a repaint
+
+                }
             }
         }
 
         private void chart_OHLCV_MouseUp(object sender, MouseEventArgs e)
         {
-            if (isDragging)
+            if (retracementMode && isDragging)
             {
                 isDragging = false; 
 
@@ -502,7 +513,7 @@ namespace Stock_Analyzer
 
         private void chart_OHLCV_Paint(object sender, PaintEventArgs e)
         {
-            if (isDragging || validWaveSelected) // Only draw if dragging
+            if ((isDragging || validWaveSelected) && retracementMode) // Only draw if dragging
             {
                 
                 // Get the drawing graphics object
@@ -604,6 +615,8 @@ namespace Stock_Analyzer
                endDate = dateTimePicker_endDate.Value;
             else
                 MessageBox.Show("Date controls are locked when there is an active Fibonacci retracement on the chart.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+            dateTimePicker_endDate.Value = endDate;
         }
 
     }
