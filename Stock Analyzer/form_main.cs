@@ -321,8 +321,12 @@ namespace Stock_Analyzer
         /// <param name="e">Event data related to value change.</param>
         private void dateTimePicker_startDate_ValueChanged(object sender, EventArgs e)
         {
-            // Update the start date to newly chosen start date
-            startDate = dateTimePicker_startDate.Value;
+            if (!validWaveSelected)
+                // Update the start date to newly chosen start date
+                startDate = dateTimePicker_startDate.Value;
+            else
+                MessageBox.Show("Date controls are locked when there is an active Fibonacci retracement on the chart.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
         }
 
         /// <summary>
@@ -521,6 +525,39 @@ namespace Stock_Analyzer
                 {
                     g.DrawRectangle(pen, x, y, width, height);
                 }
+
+                if (isValidRectangleSelection)
+                {
+                    // Calculate Fibonacci levels using double
+                    double[] fibLevels = { 0.0, 0.236, 0.382, 0.5, 0.618, 0.764, 1.0 };
+                    int rectTop = y;
+                    int rectBottom = y + height;
+
+                    foreach (double level in fibLevels)
+                    {
+                        // Calculate Y position for each Fibonacci level
+                        int fibY = rectTop + (int)(level * height);
+
+                        // Draw a horizontal line for the Fibonacci level
+                        using (var fibPen = new Pen(Color.Blue, 2))
+                        {
+                            g.DrawLine(fibPen, x, fibY, x + width, fibY);
+                        }
+
+                        // Draw the Fibonacci label
+                        using (var font = new Font("Arial", 8, FontStyle.Bold))
+                        {
+                            using (var brush = new SolidBrush(Color.Black))
+                            {
+                                double levelLabel = (bindCandlesticks[selectionStartPointIndex].High > bindCandlesticks[selectionEndPointIndex].High) ?
+                                                    (1 - level) : (level);
+
+                                string label = $"{ (levelLabel * 100):0.0}%";
+                                g.DrawString(label, font, brush, x + width + 5, fibY - 10);
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -562,8 +599,11 @@ namespace Stock_Analyzer
         /// <param name="e">Event data related to value change.</param>
         private void dateTimePicker_endDate_ValueChanged(object sender, EventArgs e)
         {
-            // Update the end date to newly chosen end date
-            endDate = dateTimePicker_endDate.Value;
+            if(!validWaveSelected)
+               // Update the end date to newly chosen end date
+               endDate = dateTimePicker_endDate.Value;
+            else
+                MessageBox.Show("Date controls are locked when there is an active Fibonacci retracement on the chart.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
     }
