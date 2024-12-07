@@ -46,7 +46,7 @@
             this.comboBox_patterns = new System.Windows.Forms.ComboBox();
             this.label_pattern = new System.Windows.Forms.Label();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.chart_beauty = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chart_Beauty = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.button_retracement = new System.Windows.Forms.Button();
             this.numericUpDown_retracement_leeway = new System.Windows.Forms.NumericUpDown();
             this.label_percentLeeway = new System.Windows.Forms.Label();
@@ -56,7 +56,7 @@
             this.formmainBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.chart_OHLCV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart_beauty)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_Beauty)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_retracement_leeway)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.candleStickBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.formmainBindingSource)).BeginInit();
@@ -192,21 +192,20 @@
             this.label_pattern.TabIndex = 7;
             this.label_pattern.Text = "Detect Pattern:";
             // 
-            // chart_beauty
+            // chart_Beauty
             // 
             chartArea3.Name = "ChartArea_Beauty";
-            this.chart_beauty.ChartAreas.Add(chartArea3);
-            this.chart_beauty.Location = new System.Drawing.Point(44, 1207);
-            this.chart_beauty.Name = "chart_beauty";
+            this.chart_Beauty.ChartAreas.Add(chartArea3);
+            this.chart_Beauty.Location = new System.Drawing.Point(44, 1207);
+            this.chart_Beauty.Name = "chart_Beauty";
             series3.ChartArea = "ChartArea_Beauty";
+            series3.IsVisibleInLegend = false;
             series3.IsXValueIndexed = true;
             series3.Name = "Series_Fibonacci_Beauty";
-            series3.XValueMember = "Price";
-            series3.YValueMembers = "Beauty";
-            this.chart_beauty.Series.Add(series3);
-            this.chart_beauty.Size = new System.Drawing.Size(3403, 545);
-            this.chart_beauty.TabIndex = 8;
-            this.chart_beauty.Text = "chart_beauty";
+            this.chart_Beauty.Series.Add(series3);
+            this.chart_Beauty.Size = new System.Drawing.Size(3403, 545);
+            this.chart_Beauty.TabIndex = 8;
+            this.chart_Beauty.Text = "chart_beauty";
             // 
             // button_retracement
             // 
@@ -236,7 +235,7 @@
             this.numericUpDown_retracement_leeway.Name = "numericUpDown_retracement_leeway";
             this.numericUpDown_retracement_leeway.Size = new System.Drawing.Size(195, 38);
             this.numericUpDown_retracement_leeway.TabIndex = 11;
-            this.toolTip_percent_leeway.SetToolTip(this.numericUpDown_retracement_leeway, "Max 25%");
+            this.toolTip_percent_leeway.SetToolTip(this.numericUpDown_retracement_leeway, "Click Update after done.");
             this.numericUpDown_retracement_leeway.ValueChanged += new System.EventHandler(this.numericUpDown_retracement_leeway_ValueChanged);
             // 
             // label_percentLeeway
@@ -260,6 +259,7 @@
             // toolTip_percent_leeway
             // 
             this.toolTip_percent_leeway.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.toolTip_percent_leeway.ToolTipTitle = "Max 25%";
             // 
             // candleStickBindingSource
             // 
@@ -281,7 +281,7 @@
             this.Controls.Add(this.label_percentLeeway);
             this.Controls.Add(this.numericUpDown_retracement_leeway);
             this.Controls.Add(this.button_retracement);
-            this.Controls.Add(this.chart_beauty);
+            this.Controls.Add(this.chart_Beauty);
             this.Controls.Add(this.label_pattern);
             this.Controls.Add(this.comboBox_patterns);
             this.Controls.Add(this.dateTimePicker_endDate);
@@ -298,7 +298,7 @@
             this.Text = "Stock Viewer";
             ((System.ComponentModel.ISupportInitialize)(this.chart_OHLCV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart_beauty)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_Beauty)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_retracement_leeway)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.candleStickBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.formmainBindingSource)).EndInit();
@@ -321,7 +321,7 @@
         private System.Windows.Forms.ComboBox comboBox_patterns;
         private System.Windows.Forms.Label label_pattern;
         private System.Windows.Forms.BindingSource bindingSource1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart_beauty;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart_Beauty;
         private System.Windows.Forms.Button button_retracement;
         private System.Windows.Forms.NumericUpDown numericUpDown_retracement_leeway;
         private System.Windows.Forms.Label label_percentLeeway;

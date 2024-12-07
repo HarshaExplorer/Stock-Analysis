@@ -40,6 +40,7 @@ namespace Stock_Analyzer
         private int selectionStartPointIndex, selectionEndPointIndex;
         private bool validWaveSelected = false;
         private decimal retracementPercentLeeway = 0.5M;
+        private decimal[] beautyLevels;
         private decimal[] fibLevels = { 0.0M, 0.236M, 0.382M, 0.5M, 0.618M, 0.764M, 1.0M};
 
         private List<EllipseAnnotation> retracementConfirmations = null;
@@ -95,6 +96,8 @@ namespace Stock_Analyzer
             retracementConfirmations = new List<EllipseAnnotation>(50);
             // Set default percent leeway for retracement
             numericUpDown_retracement_leeway.Value = retracementPercentLeeway;
+            // Set the beauty levels for retracement: +/- 25%
+            beautyLevels = new decimal[] {-0.25M, -0.20M, -0.15M, -0.10M, -0.05M, 0M, 0.05M, 0.10M, 0.15M, 0.20M, 0.25M};
             // Pre-select the start & end dates for user convenience
             preselectDates();
             // Populate the comboBox_patterns
@@ -493,6 +496,7 @@ namespace Stock_Analyzer
                         isDragging = true; // Start dragging
                         validWaveSelected = false;
                         ClearConfirmations();
+                        chart_Beauty.Series[0].Points.Clear();
                     }
                     else
                     {
@@ -532,9 +536,25 @@ namespace Stock_Analyzer
                 if (isValidRectangleSelection)
                 {
                     validWaveSelected = true;
-                    MessageBox.Show(
-                        calculateBeauty(bindCandlesticks[selectionEndPointIndex].Low, bindCandlesticks[selectionStartPointIndex].High- bindCandlesticks[selectionEndPointIndex].Low, true).ToString()
-                        );
+
+                    bool isWaveDownward = (bindCandlesticks[selectionStartPointIndex].High > bindCandlesticks[selectionEndPointIndex].High);
+                    decimal basePrice, waveHeight;
+
+                    decimal selectedWaveBasePrice = (isWaveDownward) ? (bindCandlesticks[selectionEndPointIndex].Low) : (bindCandlesticks[selectionEndPointIndex].High);
+
+                    foreach (decimal beautyRange in beautyLevels)
+                    {
+                        basePrice = selectedWaveBasePrice * (1 + beautyRange);
+
+                        if (isWaveDownward)
+                            waveHeight = bindCandlesticks[selectionStartPointIndex].High - basePrice;
+                        else
+                            waveHeight = basePrice - bindCandlesticks[selectionStartPointIndex].Low;
+
+
+                        chart_Beauty.Series[0].Points.AddXY(Math.Round(basePrice, 2), calculateBeauty(basePrice, waveHeight, (beautyRange == 0)));
+                        
+                    }
                 }
                 else
                 {
@@ -645,12 +665,13 @@ namespace Stock_Analyzer
         {
             int beauty = 0;
             decimal price = 0;
+            bool isWaveDownward = (bindCandlesticks[selectionStartPointIndex].High > bindCandlesticks[selectionEndPointIndex].High);
             List<(decimal, decimal)> fibonacciPriceLevels = new List<(decimal, decimal)>(7);
 
             
             for (int i = 0; i < fibLevels.Length; i++)
             {
-                price = basePrice + (waveHeight * fibLevels[i]);
+                price = (isWaveDownward) ? (basePrice + (waveHeight * fibLevels[i])): (basePrice - (waveHeight * fibLevels[i]));
                 fibonacciPriceLevels.Add( (price*(1-(retracementPercentLeeway/100)), price*(1+(retracementPercentLeeway/100))) );
             }
 
@@ -663,7 +684,7 @@ namespace Stock_Analyzer
                     {
                         foreach ((decimal lowerPrice, decimal upperPrice) in fibonacciPriceLevels)
                         {
-                            if (Decimal.Compare(value, upperPrice) <= 0 && Decimal.Compare(value, lowerPrice) >= 0)
+                            if (value <= upperPrice && value >= lowerPrice)
                             {
                                 beauty++;
                                 if (annotateConfirmations)
@@ -698,6 +719,7 @@ namespace Stock_Analyzer
                      compareAndAnnotate(cs.Low);
                      compareAndAnnotate(cs.Close);
             }
+
             return beauty;
         }
         /// <summary>
