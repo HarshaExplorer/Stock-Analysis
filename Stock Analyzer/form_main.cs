@@ -9,14 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Diagnostics;
 
 namespace Stock_Analyzer
 {
     public partial class Form_Main : Form
     {
-        
-        
-
         //List of all candlesticks read from file
         private List<CandleStick> candlesticks = null;
         /// Binding list of candlesticks bound to chart_OHLCV for graph display
@@ -33,16 +31,23 @@ namespace Stock_Analyzer
         private String currentInputFileName = null;
         // Stores the state of fibonacci retracement mode - toggle on or off
         private bool retracementMode = false;
-        // To Track starting mouse interaction for retracement selection
+        // To track the starting point of mouse interaction for Fibonacci retracement selection
         private Point startPoint;
+        // To track the current mouse position during retracement selection
         private Point currentPoint;
+        // Boolean flag to indicate whether the user is currently dragging the mouse
         private bool isDragging = false;
+        // Index of the starting and ending candlesticks for the retracement selection
         private int selectionStartPointIndex, selectionEndPointIndex;
+        // Boolean flag to indicate if a valid wave has been selected by the user
         private bool validWaveSelected = false;
+        // Tolerance percentage for retracement confirmations, allowing a leeway for matches
         private decimal retracementPercentLeeway = 0.5M;
+        // Array to store beauty levels that will be used for retracement
         private decimal[] beautyLevels;
+        // Array of Fibonacci levels used for retracement calculations
         private decimal[] fibLevels = { 0.0M, 0.236M, 0.382M, 0.5M, 0.618M, 0.764M, 1.0M};
-
+        // List to store ellipse annotations for retracement confirmations on the chart
         private List<EllipseAnnotation> retracementConfirmations = null;
 
 
@@ -201,6 +206,10 @@ namespace Stock_Analyzer
                 Text = "Stock Viewer" + (currentInputFileName != null ? (" - " + currentInputFileName) : (""));
         }
 
+        /// <summary>
+        /// Clears all annotations from the chart. If a valid wave is selected and retracement mode is active, 
+        /// restores retracement confirmation annotations to the chart.
+        /// </summary>
         private void ClearAnnotations()
         {
             chart_OHLCV.Annotations.Clear();
@@ -260,6 +269,10 @@ namespace Stock_Analyzer
             chart_OHLCV.ChartAreas["ChartArea_OHLC"].AxisY.Maximum = Math.Ceiling(Decimal.ToDouble(max) * 1.02);
         }
 
+        /// <summary>
+        /// Normalizes the Y-axis of the beauty chart by setting the maximum value to the highest beauty value
+        /// plus 2%, rounded to the nearest whole number. The minimum value is set to zero.
+        /// </summary>
         private void NormalizeBeautyChart()
         {
             // Find the maximum Y-value
@@ -330,10 +343,14 @@ namespace Stock_Analyzer
                 // Detect & draw patterns if any selected 
                 comboBox_patterns_SelectedIndexChanged(comboBox_patterns, EventArgs.Empty);
             }
+            //Handles the scenario when the retracement mode is active and a valid wave is selected.
             else if (retracementMode && validWaveSelected)
             {
+                // Clear any existing retracement confirmations
                 ClearConfirmations();
+                // Remove all data points from the first series in the beauty chart
                 chart_Beauty.Series[0].Points.Clear();
+                // Perform the retracement calculation with the new percent leeway
                 performRetracement();
             }
         }
@@ -470,16 +487,26 @@ namespace Stock_Analyzer
             }
         }
 
+        /// <summary>
+        /// Toggles the Fibonacci retracement mode on or off when the retracement button is clicked.
+        /// Updates the button text and color based on the current mode. Hides the volume chart area 
+        /// when the retracement mode is active and clears confirmations and beauty chart points when deactivated.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private void button_retracement_Click(object sender, EventArgs e)
         {
+            // Toggle the retracement mode
             retracementMode = !retracementMode;
             button_retracement.Text = (retracementMode) ? ("Fibonacci Retracement: On") : ("Fibonacci Retracement: Off");
             button_retracement.ForeColor = (retracementMode) ? (Color.LimeGreen) : (Color.Red);
-
+            
+            // Hide the volume chart area when in retracement mode
             chart_OHLCV.ChartAreas["ChartArea_Volume"].Visible = !retracementMode;
 
             if (!retracementMode)
             {
+                // Clear and reset
                 validWaveSelected = false;
                 ClearConfirmations();
                 chart_Beauty.Series[0].Points.Clear();
@@ -487,6 +514,10 @@ namespace Stock_Analyzer
 
         }
 
+        /// <summary>
+        /// Clears all existing retracement confirmation annotations from the chart
+        /// and resets the list of confirmations.
+        /// </summary>
         private void ClearConfirmations()
         {
             foreach (var prevConfirmation in retracementConfirmations)
@@ -494,6 +525,14 @@ namespace Stock_Analyzer
             retracementConfirmations.Clear();
         }
 
+        /// <summary>
+        /// Handles the MouseDown event for the OHLC chart to initiate the retracement selection.
+        /// Detects whether the user is in retracement mode and determines if the mouse click occurred
+        /// on a valid peak or valley point. Clears previous confirmations and beauty points if a valid
+        /// selection is made.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private void chart_OHLCV_MouseDown(object sender, MouseEventArgs e)
         {
             if (retracementMode)
@@ -508,6 +547,7 @@ namespace Stock_Analyzer
                 }
                 else if (hit.ChartArea != null && hit.ChartArea.Name == "ChartArea_OHLC")
                 {
+                    // Check if the clicked point is a valid peak or valley
                     if (hit.PointIndex >= 0 && peakValleyDetector.isPeakOrValley(hit.PointIndex)) // Ensure a valid point is hit
                     {
                         selectionStartPointIndex = hit.PointIndex;
@@ -520,6 +560,7 @@ namespace Stock_Analyzer
                     }
                     else
                     {
+                        // Stop dragging if the point is invalid
                         isDragging = false;
                         MessageBox.Show("MouseDown for rectangle selection must occur on a valid peak/valley candlestick on the chart! Use the Detect Pattern Tool to find peaks or valleys.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
@@ -528,6 +569,12 @@ namespace Stock_Analyzer
             }
         }
 
+        /// <summary>
+        /// Handles the MouseMove event for the OHLC chart to update the current mouse position 
+        /// and visualize the selection rectangle while in retracement mode.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private void chart_OHLCV_MouseMove(object sender, MouseEventArgs e)
         {
             if (retracementMode)
@@ -535,6 +582,7 @@ namespace Stock_Analyzer
                 // Perform a HitTest to detect where the mouse click occurred
                 HitTestResult hit = chart_OHLCV.HitTest(e.X, e.Y);
 
+                // If the user is dragging and the mouse is within the OHLC chart area
                 if (isDragging && hit.ChartArea != null && hit.ChartArea.Name == "ChartArea_OHLC")
                 {
                     currentPoint = e.Location; // Update current mouse position
@@ -545,21 +593,31 @@ namespace Stock_Analyzer
             }
         }
 
+        /// <summary>
+        /// Handles the MouseUp event for the OHLC chart to finalize the selection of the retracement rectangle.
+        /// Checks if the selected wave is valid and performs the retracement calculation if valid.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private void chart_OHLCV_MouseUp(object sender, MouseEventArgs e)
         {
             if (retracementMode && isDragging)
             {
-                isDragging = false; 
+                isDragging = false;
 
+                // Validate the selected wave
                 bool isValidRectangleSelection = isValidWave();
 
                 if (isValidRectangleSelection)
                 {
+                    // Mark that a valid wave has been selected
                     validWaveSelected = true;
+                    // Execute the retracement logic
                     performRetracement();
                 }
                 else
                 {
+                    // Show an error message if the selected wave is not valid
                     MessageBox.Show("Selected wave is not valid! Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
                 
@@ -567,38 +625,54 @@ namespace Stock_Analyzer
             
         }
 
+        /// <summary>
+        /// Performs the retracement calculation based on the selected wave and populates the beauty chart
+        /// with calculated beauty values for various base prices derived from the wave's high and low points.
+        /// </summary>
         private void performRetracement()
         {
+            // Determine if the selected wave is downward based on the high values of the start and end candlesticks
             bool isWaveDownward = (bindCandlesticks[selectionStartPointIndex].High > bindCandlesticks[selectionEndPointIndex].High);
             decimal basePrice, waveHeight;
 
+            // Set the base price based on whether the wave is downward or upward
             decimal selectedWaveBasePrice = (isWaveDownward) ? (bindCandlesticks[selectionEndPointIndex].Low) : (bindCandlesticks[selectionEndPointIndex].High);
 
+            // Iterate through predefined beauty levels to calculate and plot beauty values
             foreach (decimal beautyRange in beautyLevels)
             {
                 basePrice = selectedWaveBasePrice * (1 + beautyRange);
 
+                // Calculate the wave height based on the direction of the wave
                 if (isWaveDownward)
                     waveHeight = bindCandlesticks[selectionStartPointIndex].High - basePrice;
                 else
                     waveHeight = basePrice - bindCandlesticks[selectionStartPointIndex].Low;
 
-
+                // Add calculated beauty values to the chart series
                 chart_Beauty.Series[0].Points.AddXY(Math.Round(basePrice, 2), calculateBeauty(basePrice, waveHeight, (beautyRange == 0)));
 
             }
 
+            // Set tooltips for each point in the beauty chart
             foreach (var point in chart_Beauty.Series[0].Points)
             {
                 point.ToolTip = $"Beauty: {point.YValues[0]}";
             }
 
+            // Normalize the beauty chart's Y-axis after populating the points
             NormalizeBeautyChart();
         }
 
+        /// <summary>
+        /// Handles the Paint event for the OHLC chart to draw the selection rectangle 
+        /// and Fibonacci retracement levels when in retracement mode.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data containing the graphics object for drawing.</param>
         private void chart_OHLCV_Paint(object sender, PaintEventArgs e)
         {
-            if ((isDragging || validWaveSelected) && retracementMode) // Only draw if dragging
+            if ((isDragging || validWaveSelected) && retracementMode) 
             {
                 
                 // Get the drawing graphics object
@@ -610,6 +684,7 @@ namespace Stock_Analyzer
                 int width = Math.Abs(currentPoint.X - startPoint.X);
                 int height = Math.Abs(currentPoint.Y - startPoint.Y);
 
+                // Check if the selected rectangle is valid for a wave
                 bool isValidRectangleSelection = isValidWave();
 
                 // Draw the rectangle with a semi-transparent fill and a border
@@ -622,13 +697,17 @@ namespace Stock_Analyzer
                     g.DrawRectangle(pen, x, y, width, height);
                 }
 
+                // If the rectangle selection is valid, draw Fibonacci levels
                 if (isValidRectangleSelection)
                 {
                     
                     int rectTop = y;
                     int rectBottom = y + height;
                     bool isWaveDownward = bindCandlesticks[selectionStartPointIndex].High > bindCandlesticks[selectionEndPointIndex].High;
+                    decimal selectedWaveBasePrice = (isWaveDownward) ? (bindCandlesticks[selectionEndPointIndex].Low) : (bindCandlesticks[selectionEndPointIndex].High);
+                    decimal selectedWaveHeight = (isWaveDownward) ? (bindCandlesticks[selectionStartPointIndex].High - selectedWaveBasePrice) : (selectedWaveBasePrice - bindCandlesticks[selectionStartPointIndex].Low);
 
+                    // Draw the Fibonacci label next to the line
                     foreach (double level in fibLevels)
                     {
                         // Calculate Y position for each Fibonacci level
@@ -647,8 +726,11 @@ namespace Stock_Analyzer
                             {
                                 double levelLabel = (isWaveDownward) ?
                                                     (1 - level) : (level);
+                                decimal price = (isWaveDownward) ? (selectedWaveBasePrice + (selectedWaveHeight * (decimal)levelLabel)) : (selectedWaveBasePrice - (selectedWaveHeight * (decimal)levelLabel));
+                                price = Math.Round(price,2);
 
-                                string label = $"{ (levelLabel * 100):0.0}%";
+                                // Create the label with percentage and price
+                                string label = $"{ (levelLabel * 100):0.0}% ({price})";
                                 g.DrawString(label, font, brush, x + width + 5, fibY - 10);
                             }
                         }
@@ -657,18 +739,31 @@ namespace Stock_Analyzer
             }
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event for the numeric up-down control that sets the retracement leeway percentage.
+        /// Updates the <see cref="retracementPercentLeeway"/> variable with the new value selected by the user.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The event data.</param>
         private void numericUpDown_retracement_leeway_ValueChanged(object sender, EventArgs e)
         {
             retracementPercentLeeway = numericUpDown_retracement_leeway.Value;
         }
 
+        /// <summary>
+        /// Validates the selected wave by checking that all candlesticks between the start and end indices 
+        /// are within the bounds defined by the highest and lowest points of the selected range.
+        /// </summary>
+        /// <returns>True if the selected wave is valid; otherwise, false.</returns>
         private bool isValidWave()
         {
+            // Ensure that both selection indices are valid
             if (selectionEndPointIndex < 0 || selectionStartPointIndex < 0)
                 return false;
             else
             {
                 decimal upperBound, lowerBound;
+                // Determine upper and lower bounds based on the high and low of the selected candlesticks
                 if (bindCandlesticks[selectionStartPointIndex].High > bindCandlesticks[selectionEndPointIndex].High)
                 {
                     upperBound = bindCandlesticks[selectionStartPointIndex].High;
@@ -679,40 +774,54 @@ namespace Stock_Analyzer
                     lowerBound = bindCandlesticks[selectionStartPointIndex].Low;
                     upperBound = bindCandlesticks[selectionEndPointIndex].High;
                 }
-               
 
+                // Check all candlesticks in the selection range to ensure they fall within the defined bounds
                 for (int i = selectionStartPointIndex+1; i < selectionEndPointIndex; i++)
                 {
                     var candlestick = bindCandlesticks[i];
 
+                    // If any candlestick's high exceeds the upper bound or low is below the lower bound, return false
                     if (candlestick.High > upperBound || candlestick.Low < lowerBound)
                         return false;
                 }
             }
 
-            return true;
+            return true; // All checks passed, the wave is valid
         }
 
+        /// <summary>
+        /// Calculates the beauty value based on the given base price and wave height. It also annotates the 
+        /// chart with confirmations for the specified price levels derived from Fibonacci retracement.
+        /// </summary>
+        /// <param name="basePrice">The base price for the wave calculation.</param>
+        /// <param name="waveHeight">The height of the wave used to calculate price levels.</param>
+        /// <param name="annotateConfirmations">Indicates whether to annotate the chart with confirmation points.</param>
+        /// <returns>The calculated beauty value.</returns>
         private int calculateBeauty(decimal basePrice, decimal waveHeight, bool annotateConfirmations)
         {
             int beauty = 0;
             decimal price = 0;
+            // Determine if the wave is downward based on the selected candlesticks
             bool isWaveDownward = (bindCandlesticks[selectionStartPointIndex].High > bindCandlesticks[selectionEndPointIndex].High);
             List<(decimal, decimal)> fibonacciPriceLevels = new List<(decimal, decimal)>(7);
 
-            
+            // Calculate Fibonacci price levels based on the base price and wave height
             for (int i = 0; i < fibLevels.Length; i++)
             {
+                // Calculate price based on whether the wave is downward or upward
                 price = (isWaveDownward) ? (basePrice + (waveHeight * fibLevels[i])): (basePrice - (waveHeight * fibLevels[i]));
+                // Add lower and upper bounds for each Fibonacci level considering the retracement leeway
                 fibonacciPriceLevels.Add( (price*(1-(retracementPercentLeeway/100)), price*(1+(retracementPercentLeeway/100))) );
             }
 
-            for(int i = selectionStartPointIndex; i <= selectionEndPointIndex; i++)
+            // Iterate through the selected candlesticks to check for OHLC confirmations
+            for (int i = selectionStartPointIndex; i <= selectionEndPointIndex; i++)
             {
                 var cs = bindCandlesticks[i];
                 var dataPoint = chart_OHLCV.Series[0].Points[i];
-                 
-                    void compareAndAnnotate(decimal value)
+
+                // Inner function to compare values and annotate the chart if they match the Fibonacci levels
+                void compareAndAnnotate(decimal value)
                     {
                         foreach ((decimal lowerPrice, decimal upperPrice) in fibonacciPriceLevels)
                         {
@@ -743,9 +852,8 @@ namespace Stock_Analyzer
                             }
                         }
 
-                        
                     }
-
+                     // Compare and annotate for each OHLC value of the candlestick
                      compareAndAnnotate(cs.Open);
                      compareAndAnnotate(cs.High);
                      compareAndAnnotate(cs.Low);
@@ -754,6 +862,7 @@ namespace Stock_Analyzer
 
             return beauty;
         }
+
         /// <summary>
         /// Event handler for the end date picker value change. Updates the endDate field.
         /// </summary>
