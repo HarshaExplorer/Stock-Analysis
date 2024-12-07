@@ -40,6 +40,10 @@ namespace Stock_Analyzer
         private int selectionStartPointIndex, selectionEndPointIndex;
         private bool validWaveSelected = false;
         private decimal retracementPercentLeeway = 1;
+        private decimal[] fibLevels = { 0.0M, 0.236M, 0.382M, 0.5M, 0.618M, 0.764M, 1.0M};
+
+        private List<EllipseAnnotation> retracementConfirmations = null;
+
 
         // Instance of RectangleAnnotation for the drawn retracement selection
         private RectangleAnnotation selectionRectangle = null;
@@ -542,8 +546,7 @@ namespace Stock_Analyzer
 
                 if (isValidRectangleSelection)
                 {
-                    // Calculate Fibonacci levels using double
-                    double[] fibLevels = { 0.0, 0.236, 0.382, 0.5, 0.618, 0.764, 1.0 };
+                    
                     int rectTop = y;
                     int rectBottom = y + height;
 
@@ -611,6 +614,39 @@ namespace Stock_Analyzer
             return true;
         }
 
+        private int CalculateBeauty(decimal basePrice, decimal waveHeight, bool annotateConfirmations)
+        {
+            int beauty = 0;
+            decimal price = 0;
+            List<(decimal, decimal)> fibonacciPriceLevels = new List<(decimal, decimal)>(7);
+
+            
+            for (int i = 0; i < fibLevels.Length; i++)
+            {
+                price = basePrice + waveHeight * fibLevels[i];
+                fibonacciPriceLevels.Add( (price*(1-(retracementPercentLeeway/100)), price*(1+(retracementPercentLeeway/100))) );
+            }
+
+            for(int i = selectionStartPointIndex; i <= selectionEndPointIndex; i++)
+            {
+                var cs = bindCandlesticks[selectionStartPointIndex];
+                foreach ((decimal lowerPrice, decimal upperPrice) in fibonacciPriceLevels)
+                {
+                    if (Decimal.Compare(cs.Open, upperPrice) <= 0 && Decimal.Compare(cs.Open, lowerPrice) >= 0)
+                        beauty++;
+                    if (Decimal.Compare(cs.High, upperPrice) <= 0 && Decimal.Compare(cs.High, lowerPrice) >= 0)
+                        beauty++;
+                    if (Decimal.Compare(cs.Low, upperPrice) <= 0 && Decimal.Compare(cs.Low, lowerPrice) >= 0)
+                        beauty++;
+                    if (Decimal.Compare(cs.Close, upperPrice) <= 0 && Decimal.Compare(cs.Close, lowerPrice) >= 0)
+                        beauty++;
+
+                    //Annotation to Add
+                }
+            }
+
+            return beauty;
+        }
         /// <summary>
         /// Event handler for the end date picker value change. Updates the endDate field.
         /// </summary>
