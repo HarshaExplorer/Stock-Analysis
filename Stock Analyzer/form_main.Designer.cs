@@ -202,6 +202,8 @@
             // 
             // chart_Beauty
             // 
+            chartArea3.AxisX.Interval = 1D;
+            chartArea3.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
             chartArea3.AxisX.Title = "Price";
             chartArea3.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.900001F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             chartArea3.AxisY.Title = "Beauty";

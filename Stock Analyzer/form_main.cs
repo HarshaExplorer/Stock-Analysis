@@ -260,6 +260,19 @@ namespace Stock_Analyzer
             chart_OHLCV.ChartAreas["ChartArea_OHLC"].AxisY.Maximum = Math.Ceiling(Decimal.ToDouble(max) * 1.02);
         }
 
+        private void NormalizeBeautyChart()
+        {
+            // Find the maximum Y-value
+            double maxBeauty = chart_Beauty.Series[0].Points.Max(point => point.YValues[0]);
+
+            // Add 2% and round to the nearest whole number
+            double normalizedMax = Math.Ceiling(maxBeauty * 1.02);
+
+            // Set the Y-axis range
+            chart_Beauty.ChartAreas[0].AxisY.Minimum = 0;       
+            chart_Beauty.ChartAreas[0].AxisY.Maximum = normalizedMax; 
+        }
+
         /// <summary>
         /// Preselects initial date range for stock data filtering.
         /// </summary>
@@ -319,6 +332,7 @@ namespace Stock_Analyzer
             }
             else if (retracementMode && validWaveSelected)
             {
+                chart_Beauty.Series[0].Points.Clear();
                 performRetracement();
             }
         }
@@ -572,6 +586,13 @@ namespace Stock_Analyzer
                 chart_Beauty.Series[0].Points.AddXY(Math.Round(basePrice, 2), calculateBeauty(basePrice, waveHeight, (beautyRange == 0)));
 
             }
+
+            foreach (var point in chart_Beauty.Series[0].Points)
+            {
+                point.ToolTip = $"Beauty: {point.YValues[0]}";
+            }
+
+            NormalizeBeautyChart();
         }
 
         private void chart_OHLCV_Paint(object sender, PaintEventArgs e)
