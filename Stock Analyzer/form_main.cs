@@ -332,6 +332,7 @@ namespace Stock_Analyzer
             }
             else if (retracementMode && validWaveSelected)
             {
+                ClearConfirmations();
                 chart_Beauty.Series[0].Points.Clear();
                 performRetracement();
             }
@@ -626,6 +627,7 @@ namespace Stock_Analyzer
                     
                     int rectTop = y;
                     int rectBottom = y + height;
+                    bool isWaveDownward = bindCandlesticks[selectionStartPointIndex].High > bindCandlesticks[selectionEndPointIndex].High;
 
                     foreach (double level in fibLevels)
                     {
@@ -639,11 +641,11 @@ namespace Stock_Analyzer
                         }
 
                         // Draw the Fibonacci label
-                        using (var font = new Font("Arial", 8, FontStyle.Bold))
+                        using (var font = new Font("Arial", 10, FontStyle.Bold))
                         {
                             using (var brush = new SolidBrush(Color.Black))
                             {
-                                double levelLabel = (bindCandlesticks[selectionStartPointIndex].High > bindCandlesticks[selectionEndPointIndex].High) ?
+                                double levelLabel = (isWaveDownward) ?
                                                     (1 - level) : (level);
 
                                 string label = $"{ (levelLabel * 100):0.0}%";
