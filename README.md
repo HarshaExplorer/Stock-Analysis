@@ -1,6 +1,6 @@
 # Stock Analysis
 
-https://github.com/user-attachments/assets/936bcfd2-1485-4129-a33a-c977fc18a12d
+https://github.com/user-attachments/assets/6544f46e-28cb-4453-9d0f-fb7290ff2dd1
 
 A C# .NET desktop application that allows users to load stock data, visualize candlestick charts, and analyze key patterns across multiple windows for comparative insights.
 
@@ -23,17 +23,21 @@ Automatically detects and highlights (with annotations) the following candlestic
 
 ### 3. **Peak and Valley Detection**
 - Identifies key **peaks** (local highs) and **valleys** (local lows) within stock data trends.
-- Peaks are highlighted with **green arrows** and horizontal lines across the chart.
-- Valleys are highlighted with **red arrows** and horizontal lines across the chart.
+- Peaks are highlighted with **green arrows** across the chart.
+- Valleys are highlighted with **red arrows** across the chart.
 
 ### 4. **Multi-Window Stock View**
 - Allows users to open multiple stock files in separate windows for side-by-side comparison.
 - Each window operates independently, enabling multi-stock analysis.
 
 ### 5. **Fibonacci Retracement Levels (Upcoming Feature)**
-- Fibonacci retracement levels on the charts for advanced support/resistance analysis.
-- Enables users to anticipate potential price reversals or continuations.
-
+- Allows users to select a **valid wave** of candlesticks on the chart using the rubber banding method (mouse dragging).
+- A dynamic rectangle is drawn on the current selection, displaying Fibonacci levels (0%, 23.6%, 38.2%, 50%, 61.8%, 76.4%, and 100%) along with their corresponding price labels—only if the selection is valid.
+   - If the selection is invalid, the rectangle is filled with red color, and the user will be prompted to adjust their selection.
+- Confirmations between candlestick OHLC values and Fibonacci levels are marked as small yellow dots.
+-  **Beauty Chart:** To help visualize the "beauty" of the selected wave, which represents the number of confirmations between candlestick OHLC values and Fibonacci levels.
+   - The selected wave is extended by ±25% beyond its original range, and for every extension, its beauty is computed, allowing deeper analysis of price action beyond its original boundaries.
+   - Essentially, this chart helps identify prices with high beauty values, indicating areas of significant support or resistance.
 ## Robust Error Handling
 - Validates input data and alerts users about missing or corrupt files.
 - Prevents crashes by skipping invalid or null data entries during analysis.
