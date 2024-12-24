@@ -2,7 +2,7 @@
 
 https://github.com/user-attachments/assets/6544f46e-28cb-4453-9d0f-fb7290ff2dd1
 
-A C# .NET desktop application that allows users to load stock data, visualize candlestick charts, and analyze key patterns across multiple windows for comparative insights.
+A C# .NET desktop application that allows users to load stock data, visualize candlestick charts, analyze key patterns, and apply Fibonacci retracement across multiple windows for comparative insights.
 
 ## Features
 
@@ -30,7 +30,7 @@ Automatically detects and highlights (with annotations) the following candlestic
 - Allows users to open multiple stock files in separate windows for side-by-side comparison.
 - Each window operates independently, enabling multi-stock analysis.
 
-### 5. **Fibonacci Retracement Levels (Upcoming Feature)**
+### 5. **Fibonacci Retracement**
 - Allows users to select a **valid wave** of candlesticks on the chart using the rubber banding method (mouse dragging).
 - A dynamic rectangle is drawn on the current selection, displaying Fibonacci levels (0%, 23.6%, 38.2%, 50%, 61.8%, 76.4%, and 100%) along with their corresponding price labels—only if the selection is valid.
    - If the selection is invalid, the rectangle is filled with red color, and the user will be prompted to adjust their selection.
