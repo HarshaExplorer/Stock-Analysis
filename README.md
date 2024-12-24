@@ -1,6 +1,6 @@
 # Stock Analysis
 
-https://github.com/user-attachments/assets/12a618a3-b61c-41a8-bd4b-360ed04c48ec
+https://github.com/user-attachments/assets/936bcfd2-1485-4129-a33a-c977fc18a12d
 
 A C# .NET desktop application that allows users to load stock data, visualize candlestick charts, and analyze key patterns across multiple windows for comparative insights.
 
