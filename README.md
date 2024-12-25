@@ -32,7 +32,7 @@ Automatically detects and highlights (with annotations) the following candlestic
 
 ### 5. **Fibonacci Retracement**
 - Allows users to select a **valid wave** of candlesticks on the chart using the rubber banding method (mouse dragging).
-- A dynamic rectangle is drawn on the current selection, displaying Fibonacci levels (0%, 23.6%, 38.2%, 50%, 61.8%, 76.4%, and 100%) along with their corresponding price labels—only if the selection is valid.
+- A dynamic rectangle is drawn on the current selection, displaying **Fibonacci levels (0%, 23.6%, 38.2%, 50%, 61.8%, 76.4%, and 100%)** along with their corresponding price labels—only if the selection is valid.
    - If the selection is invalid, the rectangle is filled with red color, and the user will be prompted to adjust their selection.
 - Confirmations between candlestick OHLC values and Fibonacci levels are marked as small yellow dots.
 -  **Beauty Chart:** To help visualize the "beauty" of the selected wave, which represents the number of confirmations between candlestick OHLC values and Fibonacci levels.
