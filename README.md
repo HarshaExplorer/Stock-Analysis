@@ -38,8 +38,5 @@ Automatically detects and highlights (with annotations) the following candlestic
 -  **Beauty Chart:** To help visualize the "beauty" of the selected wave, which represents the number of confirmations between candlestick OHLC values and Fibonacci levels.
    - The selected wave is extended by ±25% beyond its original range, and for every extension, its beauty is computed, allowing deeper analysis of price action beyond its original boundaries.
    - Essentially, this chart helps identify prices with high beauty values, indicating areas of significant support or resistance.
-## Robust Error Handling
-- Validates input data and alerts users about missing or corrupt files.
-- Prevents crashes by skipping invalid or null data entries during analysis.
-- Displays meaningful error messages when operations cannot be performed, such as attempting to detect patterns without loaded data.
+
 
